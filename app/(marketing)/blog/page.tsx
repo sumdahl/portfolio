@@ -1,4 +1,6 @@
 import { db } from '@/lib/db';
+
+export const dynamic = 'force-dynamic';
 import { blogPosts } from '@/lib/db/schema';
 import { eq, desc } from 'drizzle-orm';
 import { BlogCard } from '@/components/blog/BlogCard';

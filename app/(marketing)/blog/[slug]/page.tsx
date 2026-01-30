@@ -1,4 +1,6 @@
 import { notFound } from 'next/navigation';
+
+export const dynamic = 'force-dynamic';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import { Calendar, Clock, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
