@@ -10,7 +10,8 @@ export default function ProjectsPage() {
   return (
     <div className="container mx-auto px-4 py-16">
       <div className="max-w-6xl mx-auto">
-        <div className="mb-16 space-y-4">
+        <div className="mb-16 space-y-4 relative">
+          <div className="absolute -top-10 -left-10 w-64 h-64 bg-primary/5 rounded-full blur-3xl -z-10" />
           <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-foreground via-primary to-foreground bg-clip-text text-transparent">Projects</h1>
           <p className="text-lg text-muted-foreground max-w-2xl">
             Here are some of the projects I've worked on. Each project showcases different
@@ -18,7 +19,7 @@ export default function ProjectsPage() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects.map((project, index) => (
             <ProjectCard key={project.id} project={project} index={index} />
           ))}

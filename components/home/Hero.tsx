@@ -18,11 +18,34 @@ export function Hero({ contributionCalendar }: HeroProps) {
   // Flatten contributions for the heatmap if data exists
   const contributions: GitHubContribution[] = contributionCalendar
     ? contributionCalendar.weeks.flatMap((week) =>
-      week.contributionDays.map((day) => ({
-        date: day.date,
-        count: day.contributionCount,
-        level: (day.contributionLevel as unknown as 0 | 1 | 2 | 3 | 4) || 0,
-      }))
+      week.contributionDays.map((day) => {
+        // Handle various formats of contribution level
+        let level = 0;
+        if (typeof day.contributionLevel === 'number') {
+          level = day.contributionLevel;
+        } else if (typeof day.contributionLevel === 'string') {
+          // Check if it's a number string
+          const num = parseInt(day.contributionLevel, 10);
+          if (!isNaN(num)) {
+            level = num;
+          } else {
+            // Handle GitHub GraphQL Enum strings if real API returns them
+            switch (day.contributionLevel) {
+              case 'NONE': level = 0; break;
+              case 'FIRST_QUARTILE': level = 1; break;
+              case 'SECOND_QUARTILE': level = 2; break;
+              case 'THIRD_QUARTILE': level = 3; break;
+              case 'FOURTH_QUARTILE': level = 4; break;
+            }
+          }
+        }
+
+        return {
+          date: day.date,
+          count: day.contributionCount,
+          level: level as 0 | 1 | 2 | 3 | 4,
+        }
+      })
     )
     : [];
 
