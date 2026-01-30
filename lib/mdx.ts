@@ -30,7 +30,7 @@ export async function getAllBlogPosts(): Promise<BlogPost[]> {
       date: frontmatter.date,
       tags: frontmatter.tags || [],
       author: frontmatter.author || 'Sumiran Dahal',
-      readingTime: readingTime(content).text,
+      readingTime: Math.ceil(readingTime(content).minutes),
       coverImage: frontmatter.coverImage,
       published: frontmatter.published ?? true,
     };
@@ -57,7 +57,7 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> 
       date: frontmatter.date,
       tags: frontmatter.tags || [],
       author: frontmatter.author || 'Sumiran Dahal',
-      readingTime: readingTime(content).text,
+      readingTime: Math.ceil(readingTime(content).minutes),
       coverImage: frontmatter.coverImage,
       published: frontmatter.published ?? true,
     };

@@ -76,7 +76,7 @@ ${message}
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(
-        { success: false, error: 'Validation failed', details: (error as z.ZodError).errors },
+        { success: false, error: 'Validation failed', details: (error as any).errors },
         { status: 400 }
       );
     }
