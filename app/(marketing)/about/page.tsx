@@ -10,13 +10,14 @@ export default function AboutPage() {
       <div className="max-w-4xl mx-auto space-y-16">
 
         {/* Intro Section */}
-        <section className="space-y-6">
-          <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-foreground via-primary to-foreground bg-clip-text text-transparent">About Me</h1>
+        <section className="space-y-6 relative">
+          <div className="absolute inset-0 bg-primary/5 blur-3xl -z-10 rounded-full opacity-50" />
+          <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-foreground via-primary to-foreground bg-clip-text text-transparent animate-fade-in">About Me</h1>
           <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-3xl">
             I'm a Full-Stack Software Engineer passionate about building modern, scalable, and user-friendly web applications. Experienced in both frontend and backend development, I create end-to-end solutions that solve real-world problems while writing clean, maintainable code.
           </p>
           <div className="flex gap-4">
-            <Button className="rounded-full" asChild>
+            <Button className="rounded-full shadow-lg hover:shadow-primary/25 transition-all duration-300" asChild>
               <Link href="/contact">Let's Connect</Link>
             </Button>
           </div>
@@ -32,7 +33,7 @@ export default function AboutPage() {
               <h2 className="text-3xl font-bold">Experience</h2>
             </div>
 
-            <Card className="border-border/50 bg-card/50 backdrop-blur-sm hover:border-primary/50 transition-all duration-300 group">
+            <Card className="border-border/50 bg-card/40 backdrop-blur-md hover:bg-card/60 hover:border-primary/50 transition-all duration-300 group shadow-sm hover:shadow-xl hover:-translate-y-1">
               <CardHeader>
                 <div className="flex justify-between items-start">
                   <div className="space-y-1">
@@ -81,7 +82,7 @@ export default function AboutPage() {
               <h2 className="text-3xl font-bold">Education</h2>
             </div>
 
-            <Card className="border-border/50 bg-card/50 backdrop-blur-sm hover:border-primary/50 transition-all duration-300">
+            <Card className="border-border/50 bg-card/40 backdrop-blur-md hover:bg-card/60 hover:border-primary/50 transition-all duration-300 group shadow-sm hover:shadow-xl hover:-translate-y-1">
               <CardHeader>
                 <div className="flex justify-between items-start">
                   <div className="space-y-1">

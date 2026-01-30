@@ -9,11 +9,11 @@ interface ContributionHeatmapProps {
 }
 
 const LEVELS = {
-  0: 'bg-secondary/30',
-  1: 'bg-accent/40',
-  2: 'bg-accent/60',
-  3: 'bg-accent/80',
-  4: 'bg-accent',
+  0: 'bg-foreground/10', // Clearly visible empty slots
+  1: 'bg-primary/40',
+  2: 'bg-primary/60',
+  3: 'bg-primary/80',
+  4: 'bg-primary',
 };
 
 export function ContributionHeatmap({
@@ -30,24 +30,16 @@ export function ContributionHeatmap({
 
   return (
     <div className="w-full">
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="text-2xl font-bold text-body">GitHub Contributions</h3>
-        <p className="text-accent">
-          <span className="font-semibold text-body">{totalContributions}</span> contributions this year
-        </p>
-      </div>
-
       <div className="relative">
-        <div className="overflow-x-auto pb-4">
+        <div className="">
           <div className="inline-flex gap-1">
             {weeks.map((week, weekIndex) => (
               <div key={weekIndex} className="flex flex-col gap-1">
                 {week.map((day, dayIndex) => (
                   <div
                     key={`${weekIndex}-${dayIndex}`}
-                    className={`w-3 h-3 rounded-sm cursor-pointer transition-all hover:ring-2 hover:ring-accent ${
-                      LEVELS[day.level]
-                    }`}
+                    className={`w-3 h-3 rounded-sm cursor-pointer transition-all hover:ring-2 hover:ring-accent ${LEVELS[day.level]
+                      }`}
                     onMouseEnter={() => setHoveredDay(day)}
                     onMouseLeave={() => setHoveredDay(null)}
                     role="button"
