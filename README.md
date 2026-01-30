@@ -1,36 +1,194 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Modern Developer Portfolio
 
-## Getting Started
+A TypeScript-first portfolio website built with Next.js 16, featuring a custom MDX blog system, GitHub integration, and dark-mode-first design.
 
-First, run the development server:
+## 🚀 Features
+
+- **Modern Tech Stack**: Next.js 16 (App Router), TypeScript, Tailwind CSS v4, Bun runtime
+- **Custom MDX Blog**: Write and publish blog posts with syntax highlighting and live preview
+- **GitHub Integration**: Display contribution heatmap and featured repositories via GraphQL API
+- **Dark Mode First**: Carefully crafted color palette optimized for readability
+- **Fully Responsive**: Mobile-first design that works on all devices
+- **SEO Optimized**: Comprehensive metadata, OpenGraph, and Twitter cards
+- **Analytics**: Privacy-friendly Umami analytics integration
+- **Accessible**: WCAG compliant with keyboard navigation support
+
+## 🎨 Color Palette
+
+| Color | Role | Hex |
+|-------|------|-----|
+| Primary Background | Dark mode base | `#293241` |
+| Body/Headings | High contrast text | `#E0FBFC` |
+| Secondary/Cards | Card backgrounds | `#3D5A80` |
+| Action | Buttons/CTAs | `#EE6C4D` |
+| Accent/Links | Highlights | `#98C1D9` |
+
+## 📦 Installation
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
+# Clone the repository
+git clone https://github.com/sumdahl/portfolio.git
+cd portfolio_website
+
+# Install dependencies with Bun
+bun install
+
+# Copy environment variables
+cp .env.local.example .env.local
+
+# Start development server
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🔧 Environment Variables
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Create a `.env.local` file with the following variables:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```env
+# GitHub API (Required for contribution heatmap)
+GITHUB_TOKEN=your_github_personal_access_token
+GITHUB_USERNAME=sumdahl
 
-## Learn More
+# Supabase (Optional - for dynamic blog storage)
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 
-To learn more about Next.js, take a look at the following resources:
+# Umami Analytics (Optional)
+NEXT_PUBLIC_UMAMI_WEBSITE_ID=your_umami_website_id
+NEXT_PUBLIC_UMAMI_SRC=https://cloud.umami.is/script.js
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### GitHub Token Setup
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Go to GitHub Settings → Developer settings → Personal access tokens → Tokens (classic)
+2. Generate new token with `read:user` scope
+3. Add to `.env.local` as `GITHUB_TOKEN=your_token_here`
 
-## Deploy on Vercel
+## 📁 Project Structure
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+portfolio_website/
+├── app/                    # Next.js App Router pages
+│   ├── about/             # About page
+│   ├── blog/              # Blog listing and posts
+│   ├── contact/           # Contact page
+│   ├── projects/          # Projects page
+│   └── layout.tsx         # Root layout
+├── components/            # React components
+│   ├── blog/             # Blog components
+│   ├── github/           # GitHub integration
+│   ├── home/             # Home page components
+│   ├── layout/           # Layout components
+│   ├── projects/         # Project components
+│   ├── shared/           # Shared components
+│   └── ui/               # shadcn/ui components
+├── content/              # Content files
+│   ├── blog/            # MDX blog posts
+│   └── projects/        # Project data
+├── lib/                  # Utility functions
+│   ├── github.ts        # GitHub API client
+│   ├── mdx.ts           # MDX utilities
+│   └── utils.ts         # Shared utilities
+├── styles/              # Global styles
+├── types/               # TypeScript types
+└── public/              # Static assets
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🚀 Deployment
+
+### Vercel (Recommended)
+
+```bash
+# Install Vercel CLI
+bun add -g vercel
+
+# Deploy
+vercel
+```
+
+### Environment Variables on Vercel
+
+Add the same environment variables from `.env.local` to your Vercel project settings.
+
+## 📝 Adding Blog Posts
+
+Create a new MDX file in `content/blog/`:
+
+```mdx
+---
+title: "Your Post Title"
+description: "Brief description"
+date: "2026-01-30"
+tags: ["TypeScript", "Next.js"]
+author: "Sumiran Dahal"
+published: true
+---
+
+# Your Content Here
+
+Write your blog post content using MDX...
+```
+
+## 🎯 Adding Projects
+
+Edit `content/projects/index.ts` to add your projects:
+
+```typescript
+{
+  id: '1',
+  title: 'Project Name',
+  description: 'Short description',
+  techStack: ['TypeScript', 'React'],
+  githubUrl: 'https://github.com/...',
+  liveUrl: 'https://...',
+  featured: true,
+  date: '2026-01-30',
+}
+```
+
+## 🧪 Scripts
+
+```bash
+# Development
+bun dev
+
+# Build for production
+bun run build
+
+# Start production server
+bun start
+
+# Lint
+bun run lint
+
+# Type check
+bun run type-check
+```
+
+## 🛠️ Tech Stack
+
+- **Framework**: Next.js 16 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS v4
+- **UI Components**: shadcn/ui
+- **Animations**: Framer Motion
+- **Icons**: Lucide React
+- **Blog**: MDX with syntax highlighting
+- **GitHub API**: @octokit/graphql
+- **Analytics**: Umami
+- **Runtime**: Bun
+
+## 📄 License
+
+MIT License - feel free to use this project as a template for your own portfolio!
+
+## 🤝 Contact
+
+- **Email**: sumirandahal46@gmail.com
+- **GitHub**: [@sumdahl](https://github.com/sumdahl)
+- **LinkedIn**: [Sumiran Dahal](https://www.linkedin.com/in/sumiran-dahal-108285220/)
+- **Twitter**: [@sumiran_dahal](https://x.com/sumiran_dahal)
+
+---
+
+Built with ❤️ by Sumiran Dahal
