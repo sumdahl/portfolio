@@ -13,6 +13,7 @@ import { db } from '@/lib/db';
 import { blogPosts } from '@/lib/db/schema';
 import { eq } from 'drizzle-orm';
 import { Badge } from '@/components/ui/badge';
+import { formatDate } from '@/lib/utils/date';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { getMDXComponents } from '@/components/blog/MDXComponents';
 import 'highlight.js/styles/github-dark.css';
@@ -119,11 +120,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                 <span className="font-medium text-foreground">{post.authorName}</span>
                 <div className="flex items-center gap-2 text-xs">
                   <time dateTime={post.createdAt.toISOString()}>
-                    {new Date(post.createdAt).toLocaleDateString('en-US', {
-                      year: 'numeric',
-                      month: 'short',
-                      day: 'numeric',
-                    })}
+                    {formatDate(post.createdAt, { year: 'numeric', month: 'short', day: 'numeric' })}
                   </time>
                   <span>•</span>
                   <span>{readingTime} min read</span>
@@ -159,12 +156,6 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           />
         </div>
 
-        {/* Footer */}
-        <footer className="mt-12 pt-8 border-t border-accent/20">
-          <p className="text-accent">
-            Written by <span className="text-body font-semibold">{post.authorName}</span>
-          </p>
-        </footer>
       </div>
     </article>
   );

@@ -9,11 +9,7 @@ const resend = process.env.RESEND_API_KEY
   ? new Resend(process.env.RESEND_API_KEY) 
   : null;
 
-const contactSchema = z.object({
-  name: z.string().min(10, 'Name must be at least 2 characters'),
-  email: z.email('Invalid email address'),
-  message: z.string().min(20, 'Message must be at least 10 characters'),
-});
+import { contactSchema } from '@/lib/validations/contact';
 
 export async function POST(req: Request) {
   try {

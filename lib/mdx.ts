@@ -3,6 +3,7 @@ import path from 'path';
 import matter from 'gray-matter';
 import readingTime from 'reading-time';
 import type { BlogPost, BlogFrontmatter } from '@/types/blog';
+import { generateSlug } from '@/lib/utils/slug';
 
 const BLOG_DIR = path.join(process.cwd(), 'content/blog');
 
@@ -75,10 +76,7 @@ export function extractHeadings(content: string) {
   while ((match = headingRegex.exec(content)) !== null) {
     const level = match[0].indexOf(' ');
     const text = match[1];
-    const id = text
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/(^-|-$)/g, '');
+    const id = generateSlug(text);
 
     headings.push({ level, text, id });
   }

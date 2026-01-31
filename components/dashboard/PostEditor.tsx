@@ -13,6 +13,10 @@ import { ImageUpload } from '@/components/dashboard/ImageUpload';
 import { Typography } from '@/components/ui/typography';
 import { Separator } from '@/components/ui/separator';
 
+import { cleanSlug, generateSlug, sanitizeSlugInput } from '@/lib/utils/slug';
+import { TagInput } from '@/components/dashboard/TagInput';
+import { apiClient } from '@/lib/utils/api';
+
 interface PostEditorProps {
   initialData?: {
     id?: string;
@@ -34,37 +38,25 @@ export function PostEditor({ initialData }: PostEditorProps) {
   const [coverImage, setCoverImage] = useState(initialData?.coverImage || '');
   const [content, setContent] = useState(initialData?.content || '');
   const [slug, setSlug] = useState(initialData?.slug || '');
-  const [tagInput, setTagInput] = useState('');
   const [tags, setTags] = useState<string[]>(initialData?.tags || []);
   const [showPreview, setShowPreview] = useState(false);
+  const [isSlugManuallyEdited, setIsSlugManuallyEdited] = useState(false);
 
-  // Auto-generate slug from title if not manually edited (basic implementation)
-  const generateSlug = (text: string) => {
-    return text
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/(^-|-$)/g, '');
-  };
+  // Auto-generate slug from title if not manually edited
+  // generateSlug is now imported from utils
+
 
   const handleTitleChange = (value: string) => {
     setTitle(value);
-    if (!initialData?.id && !slug) {
-      // Only auto-update slug if creating new and slug hasn't been touched manually
-      // For simplicity here we just update it if it's a new post
+    if (!initialData?.id && !isSlugManuallyEdited) {
+      // Only auto-update slug if creating new and slug hasn't been manually edited
       setSlug(generateSlug(value));
     }
   };
 
-  const addTag = () => {
-    if (tagInput && !tags.includes(tagInput)) {
-      setTags([...tags, tagInput]);
-      setTagInput('');
-    }
-  };
 
-  const removeTag = (tag: string) => {
-    setTags(tags.filter((t) => t !== tag));
-  };
+
+
 
   const handleSave = async (publishNow: boolean) => {
     if (!title || !description || !content || !slug) {
@@ -85,24 +77,18 @@ export function PostEditor({ initialData }: PostEditorProps) {
       };
 
       const url = initialData?.id ? `/api/blog/${initialData.id}` : '/api/blog';
-      const method = initialData?.id ? 'PUT' : 'POST';
 
-      const response = await fetch(url, {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
-
-      if (response.ok) {
-        toast.success(publishNow ? 'Post published successfully' : 'Draft saved successfully');
-        router.push('/dashboard/posts');
-        router.refresh();
+      if (initialData?.id) {
+        await apiClient.put(url, data);
       } else {
-        const error = await response.json();
-        toast.error(error.error || 'Failed to save post');
+        await apiClient.post(url, data);
       }
+
+      toast.success(publishNow ? 'Post published successfully' : 'Draft saved successfully');
+      router.push('/dashboard/posts');
+      router.refresh();
     } catch (error) {
-      toast.error('An error occurred');
+      toast.error(error instanceof Error ? error.message : 'Failed to save post');
     } finally {
       setLoading(false);
     }
@@ -207,7 +193,11 @@ export function PostEditor({ initialData }: PostEditorProps) {
               </label>
               <Input
                 value={slug}
-                onChange={(e) => setSlug(generateSlug(e.target.value))}
+                onChange={(e) => {
+                  setSlug(sanitizeSlugInput(e.target.value));
+                  setIsSlugManuallyEdited(true);
+                }}
+                onBlur={() => setSlug(cleanSlug(slug))}
                 placeholder="post-url-slug"
                 className="bg-background/50 font-mono text-xs h-9"
               />
@@ -227,34 +217,7 @@ export function PostEditor({ initialData }: PostEditorProps) {
             </div>
 
             {/* Tags */}
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-foreground flex items-center gap-2">
-                <TagIcon className="h-3.5 w-3.5 text-muted-foreground" />
-                Tags
-              </label>
-              <div className="flex gap-2">
-                <Input
-                  value={tagInput}
-                  onChange={(e) => setTagInput(e.target.value)}
-                  onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTag())}
-                  placeholder="Add tag..."
-                  className="bg-background/50 h-9"
-                />
-                <Button type="button" onClick={addTag} size="sm" variant="secondary" className="px-3">
-                  Add
-                </Button>
-              </div>
-              <div className="flex flex-wrap gap-1.5 mt-2">
-                {tags.map((tag) => (
-                  <Badge key={tag} variant="outline" className="bg-primary/10 text-primary border-primary/20 hover:border-primary/50 transition-colors pl-2 pr-1 py-0.5">
-                    {tag}
-                    <button onClick={() => removeTag(tag)} className="ml-1.5 hover:bg-primary/20 rounded-full p-0.5 transition-colors">
-                      <X className="h-3 w-3" />
-                    </button>
-                  </Badge>
-                ))}
-              </div>
-            </div>
+            <TagInput tags={tags} onChange={setTags} />
           </CardContent>
         </Card>
 

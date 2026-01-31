@@ -16,7 +16,9 @@ import {
     AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { toast } from 'sonner';
+
 import { cn } from '@/lib/utils';
+import { apiClient } from '@/lib/utils/api';
 
 export function DeleteMessageButton({ messageId, className }: { messageId: string, className?: string }) {
     const router = useRouter();
@@ -26,19 +28,13 @@ export function DeleteMessageButton({ messageId, className }: { messageId: strin
     const handleDelete = async () => {
         setLoading(true);
         try {
-            const response = await fetch(`/api/messages/${messageId}`, {
-                method: 'DELETE',
-            });
+            await apiClient.delete(`/api/messages/${messageId}`);
 
-            if (response.ok) {
-                setOpen(false);
-                router.refresh();
-                toast.success('Message deleted successfully');
-            } else {
-                toast.error('Failed to delete message');
-            }
+            setOpen(false);
+            router.refresh();
+            toast.success('Message deleted successfully');
         } catch (error) {
-            toast.error('An error occurred');
+            toast.error('Failed to delete message');
         } finally {
             setLoading(false);
         }

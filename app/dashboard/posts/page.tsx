@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { formatDate } from '@/lib/utils/date';
 import { PlusCircle, Edit, Trash2, Calendar, Hash, Globe, EyeOff, LayoutTemplate } from 'lucide-react';
 import { DeletePostButton } from '@/components/dashboard/DeletePostButton';
 import { Typography } from '@/components/ui/typography';
@@ -76,7 +77,7 @@ export default async function PostsPage() {
                     <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground/80">
                       <div className="flex items-center gap-1.5 bg-secondary/30 px-2 py-1 rounded-md">
                         <Calendar className="w-3.5 h-3.5" />
-                        <span>{new Date(post.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                        <span>{formatDate(post.createdAt)}</span>
                       </div>
                       {post.tags.length > 0 && (
                         <div className="flex items-center gap-1.5">
@@ -95,7 +96,7 @@ export default async function PostsPage() {
                       </Link>
                     </Button>
                     <div className="flex-1 md:w-full">
-                        <DeletePostButton postId={post.id} className="w-full justify-center md:justify-start" />
+                      <DeletePostButton postId={post.id} className="w-full justify-center md:justify-start" />
                     </div>
                   </div>
                 </div>

@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Trash2 } from 'lucide-react';
+import { apiClient } from '@/lib/utils/api';
 import { useState } from 'react';
 import {
   AlertDialog,
@@ -27,19 +28,13 @@ export function DeletePostButton({ postId, className }: { postId: string, classN
   const handleDelete = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`/api/blog/${postId}`, {
-        method: 'DELETE',
-      });
+      await apiClient.delete(`/api/blog/${postId}`);
 
-      if (response.ok) {
-        setOpen(false);
-        router.refresh();
-        toast.success('Post deleted successfully');
-      } else {
-        toast.error('Failed to delete post');
-      }
+      setOpen(false);
+      router.refresh();
+      toast.success('Post deleted successfully');
     } catch (error) {
-      toast.error('An error occurred');
+      toast.error('Failed to delete post');
     } finally {
       setLoading(false);
     }

@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { PlusCircle, FileText, Eye, Edit3, TrendingUp, Sparkles, Activity } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { formatDate } from '@/lib/utils/date';
 
 export default async function DashboardPage() {
   const [totalPosts] = await db.select({ count: count() }).from(blogPosts);
@@ -114,7 +115,7 @@ export default async function DashboardPage() {
                           {post.published ? 'Article' : 'Draft'}
                         </Badge>
                         <span>•</span>
-                        <span>{new Date(post.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                        <span>{formatDate(post.createdAt, { month: 'short', day: 'numeric', year: 'numeric' })}</span>
                       </div>
                     </div>
                   </div>

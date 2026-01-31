@@ -21,13 +21,7 @@ import {
 import { Send, Check } from 'lucide-react';
 import { toast } from 'sonner';
 
-const contactSchema = z.object({
-  name: z.string().min(10, 'Name must be at least 2 characters').max(50, 'Name is too long'),
-  email: z.email('Please enter a valid email address'),
-  message: z.string().min(20, 'Message must be at least 10 characters').max(1000, 'Message is too long'),
-});
-
-type ContactFormValues = z.infer<typeof contactSchema>;
+import { contactSchema, type ContactFormValues } from '@/lib/validations/contact';
 
 export default function ContactPage() {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
@@ -123,7 +117,7 @@ export default function ContactPage() {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground text-sm">
-                  I typically respond to messages within 24-48 hours. For urgent matters, please use email.
+                  I typically respond to messages within 24 hours. For urgent matters, please use email.
                 </p>
               </CardContent>
             </Card>

@@ -26,14 +26,9 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { toast } from 'sonner';
+import { apiClient } from '@/lib/utils/api';
 
-const contactSchema = z.object({
-  name: z.string().min(10, 'Name must be at least 10 characters').max(50, 'Name is too long'),
-  email: z.email('Please enter a valid email address'),
-  message: z.string().min(20, 'Message must be at least 20 characters').max(1000, 'Message is too long'),
-});
-
-type ContactForm = z.infer<typeof contactSchema>;
+import { contactSchema, type ContactFormValues } from '@/lib/validations/contact';
 
 const socialLinks = [
   {
@@ -61,7 +56,7 @@ const socialLinks = [
 export function Contact() {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
-  const form = useForm<ContactForm>({
+  const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactSchema),
     defaultValues: {
       name: "",
@@ -70,34 +65,20 @@ export function Contact() {
     }
   });
 
-  const onSubmit = async (data: ContactForm) => {
+  const onSubmit = async (data: ContactFormValues) => {
     setStatus('loading');
 
     try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
+      await apiClient.post('/api/contact', data);
 
-      if (response.ok) {
-        setStatus('success');
-        toast.success("Message sent successfully!");
-        form.reset();
-        setTimeout(() => setStatus('idle'), 5000);
-      } else {
-        const errorData = await response.json();
-        console.error("Submission failed:", errorData);
-        setStatus('error');
-        toast.error("Failed to send message. Please try again.");
-        setTimeout(() => setStatus('idle'), 5000);
-      }
+      setStatus('success');
+      toast.success("Message sent successfully!");
+      form.reset();
+      setTimeout(() => setStatus('idle'), 5000);
     } catch (error) {
-      console.error("Network error:", error);
+      console.error("Submission error:", error);
       setStatus('error');
-      toast.error("Something went wrong. Please check your connection.");
+      toast.error(error instanceof Error ? error.message : "Failed to send message. Please try again.");
       setTimeout(() => setStatus('idle'), 5000);
     }
   };
