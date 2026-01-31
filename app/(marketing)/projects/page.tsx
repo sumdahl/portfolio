@@ -14,7 +14,7 @@ export default function ProjectsPage() {
           <div className="absolute -top-10 -left-10 w-64 h-64 bg-primary/5 rounded-full blur-3xl -z-10" />
           <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-foreground via-primary to-foreground bg-clip-text text-transparent">Projects</h1>
           <p className="text-lg text-muted-foreground max-w-2xl">
-            Here are some of the projects I've worked on. Each project showcases different
+            Here are some of the projects I&apos;ve worked on. Each project showcases different
             aspects of my skills and expertise in web development.
           </p>
         </div>

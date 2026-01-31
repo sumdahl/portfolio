@@ -134,22 +134,14 @@
     @apply bg-secondary/30 px-1.5 py-0.5 rounded text-sm text-accent;
   }
   
-  /* Scrollbar styling */
+  /* Hide scrollbar globally but allow scrolling */
   ::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
+    display: none;
   }
   
-  ::-webkit-scrollbar-track {
-    @apply bg-background;
-  }
-  
-  ::-webkit-scrollbar-thumb {
-    @apply bg-secondary rounded-lg;
-  }
-  
-  ::-webkit-scrollbar-thumb:hover {
-    @apply bg-accent;
+  html {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
   }
 }
 

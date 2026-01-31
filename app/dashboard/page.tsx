@@ -4,7 +4,7 @@ import { eq, count } from 'drizzle-orm';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { PlusCircle, FileText, Eye, Edit3, TrendingUp, Sparkles, Activity } from 'lucide-react';
+import { PlusCircle, FileText, Eye, Edit3, Sparkles, Activity } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { formatDate } from '@/lib/utils/date';
 
@@ -26,7 +26,7 @@ export default async function DashboardPage() {
         <div>
           <h2 className="text-4xl font-bold tracking-tight bg-gradient-to-r from-foreground to-foreground/60 bg-clip-text text-transparent">Dashboard</h2>
           <p className="text-muted-foreground mt-2 text-lg">
-            Welcome back. Here's what's happening with your blog today.
+            Welcome back. Here&apos;s what&apos;s happening with your blog today.
           </p>
         </div>
         <Button asChild className="shrink-0 bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:-translate-y-0.5">

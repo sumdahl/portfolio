@@ -73,7 +73,7 @@ const generateMockData = (): GitHubContributionCalendar => {
   const oneYearAgo = new Date();
   oneYearAgo.setFullYear(today.getFullYear() - 1);
 
-  let currentDate = oneYearAgo;
+  const currentDate = oneYearAgo;
   let totalContributions = 0;
 
   for (let i = 0; i < 53; i++) {

@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { formatDate } from '@/lib/utils/date';
-import { PlusCircle, Edit, Trash2, Calendar, Hash, Globe, EyeOff, LayoutTemplate } from 'lucide-react';
+import { PlusCircle, Edit, Calendar, Hash, Globe, EyeOff, LayoutTemplate } from 'lucide-react';
 import { DeletePostButton } from '@/components/dashboard/DeletePostButton';
 import { Typography } from '@/components/ui/typography';
 

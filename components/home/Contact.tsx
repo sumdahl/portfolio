@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -24,7 +23,6 @@ import {
   Twitter,
   Mail
 } from 'lucide-react';
-import Link from 'next/link';
 import { toast } from 'sonner';
 import { apiClient } from '@/lib/utils/api';
 
@@ -117,7 +115,7 @@ export function Contact() {
 
             <div className="space-y-8">
               <div className="flex items-center gap-6">
-                {socialLinks.map((link, index) => {
+                {socialLinks.map((link) => {
                   const Icon = link.icon;
                   return (
                     <a
@@ -192,7 +190,7 @@ export function Contact() {
                       <FormLabel>Message</FormLabel>
                       <FormControl>
                         <Textarea
-                          placeholder="Tell me about your project..."
+                          placeholder="Your message..."
                           className="resize-none bg-secondary/50 border-transparent focus:border-primary focus:bg-background transition-all duration-300 min-h-[150px] rounded-xl p-4"
                           {...field}
                         />

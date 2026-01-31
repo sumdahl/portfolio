@@ -1,12 +1,12 @@
 'use client';
 
-import { Mail, MapPin, ExternalLink } from 'lucide-react';
+import { Mail, MapPin } from 'lucide-react';
 import { SocialLinks } from '@/components/shared/SocialLinks';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
+
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -19,7 +19,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Send, Check } from 'lucide-react';
-import { toast } from 'sonner';
+import { notify } from '@/lib/utils/notifications';
 
 import { contactSchema, type ContactFormValues } from '@/lib/validations/contact';
 
@@ -47,22 +47,25 @@ export default function ContactPage() {
         body: JSON.stringify(data),
       });
 
+      const result = await response.json();
+
+      notify.fromResponse(result, {
+        success: 'Message sent successfully!',
+        error: 'Failed to send message. Please try again.'
+      });
+
       if (response.ok) {
         setStatus('success');
-        toast.success("Message sent successfully!");
         form.reset();
-        setTimeout(() => setStatus('idle'), 5000);
       } else {
-        const errorData = await response.json();
-        console.error("Submission failed:", errorData);
         setStatus('error');
-        toast.error("Failed to send message. Please try again.");
-        setTimeout(() => setStatus('idle'), 5000);
       }
+
+      setTimeout(() => setStatus('idle'), 5000);
     } catch (error) {
       console.error("Network error:", error);
       setStatus('error');
-      toast.error("Something went wrong. Please check your connection.");
+      notify.error("Something went wrong. Please check your connection.");
       setTimeout(() => setStatus('idle'), 5000);
     }
   };
@@ -73,7 +76,7 @@ export default function ContactPage() {
         <div className="mb-16 space-y-4">
           <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-foreground via-primary to-foreground bg-clip-text text-transparent">Get in Touch</h1>
           <p className="text-lg text-muted-foreground max-w-2xl">
-            I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
+            I&apos;m always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
           </p>
         </div>
 
@@ -128,7 +131,7 @@ export default function ContactPage() {
             <div className="mb-6">
               <h2 className="text-2xl font-bold mb-2">Send a Message</h2>
               <p className="text-muted-foreground">
-                Fill out the form below and I'll get back to you as soon as possible.
+                Fill out the form below and I&apos;ll get back to you as soon as possible.
               </p>
             </div>
 

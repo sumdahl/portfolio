@@ -8,47 +8,13 @@ import { SocialLinks } from '@/components/shared/SocialLinks';
 import { ProfilePhoto } from './ProfilePhoto';
 import { HeroCarousel } from './HeroCarousel';
 import { ContributionHeatmap } from '@/components/github/ContributionHeatmap';
-import type { GitHubContributionCalendar, GitHubContribution } from '@/types/github';
+import type { GitHubContributionCalendar } from '@/types/github';
 
 interface HeroProps {
   contributionCalendar?: GitHubContributionCalendar | null;
 }
 
 export function Hero({ contributionCalendar }: HeroProps) {
-  // Flatten contributions for the heatmap if data exists
-  const contributions: GitHubContribution[] = contributionCalendar
-    ? contributionCalendar.weeks.flatMap((week) =>
-      week.contributionDays.map((day) => {
-        // Handle various formats of contribution level
-        let level = 0;
-        if (typeof day.contributionLevel === 'number') {
-          level = day.contributionLevel;
-        } else if (typeof day.contributionLevel === 'string') {
-          // Check if it's a number string
-          const num = parseInt(day.contributionLevel, 10);
-          if (!isNaN(num)) {
-            level = num;
-          } else {
-            // Handle GitHub GraphQL Enum strings if real API returns them
-            switch (day.contributionLevel) {
-              case 'NONE': level = 0; break;
-              case 'FIRST_QUARTILE': level = 1; break;
-              case 'SECOND_QUARTILE': level = 2; break;
-              case 'THIRD_QUARTILE': level = 3; break;
-              case 'FOURTH_QUARTILE': level = 4; break;
-            }
-          }
-        }
-
-        return {
-          date: day.date,
-          count: day.contributionCount,
-          level: level as 0 | 1 | 2 | 3 | 4,
-        }
-      })
-    )
-    : [];
-
   return (
     <section className="relative min-h-[calc(100vh-80px)] flex flex-col items-center justify-center overflow-hidden pt-12 pb-10 md:pt-20">
       {/* Animated background gradient */}
@@ -94,8 +60,6 @@ export function Hero({ contributionCalendar }: HeroProps) {
             </a>
           </motion.div>
 
-          {/* Previous description removed as requested */}
-
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -131,31 +95,14 @@ export function Hero({ contributionCalendar }: HeroProps) {
             <SocialLinks />
           </motion.div>
 
-          {/* GitHub Contribution Heatmap - Responsive Container */}
-          {contributionCalendar && contributions.length > 0 && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-              className="bg-background/40 backdrop-blur-md p-4 md:p-6 rounded-2xl border border-border/50 max-w-3xl mx-auto w-full overflow-hidden shadow-lg mx-4"
-            >
-              <div className="flex flex-col sm:flex-row items-center justify-between mb-4 gap-2">
-                <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
-                  GitHub Contributions
-                </h3>
-                <span className="text-xs text-primary bg-primary/10 px-3 py-1 rounded-full font-medium">
-                  {contributionCalendar.totalContributions} Contributions in the last year
-                </span>
-              </div>
-              <div className="overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent">
-                <div className="min-w-[700px]">
-                  <ContributionHeatmap
-                    contributions={contributions}
-                    totalContributions={contributionCalendar.totalContributions}
-                  />
-                </div>
-              </div>
-            </motion.div>
+          {/* GitHub Activity Component */}
+          {contributionCalendar && (
+            <div className="mb-6">
+              <ContributionHeatmap
+                weeks={contributionCalendar.weeks}
+                totalContributions={contributionCalendar.totalContributions}
+              />
+            </div>
           )}
         </div>
       </div>
@@ -165,7 +112,7 @@ export function Hero({ contributionCalendar }: HeroProps) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.6 }}
-        className="w-full mt-auto pt-8 border-t border-border/10 bg-background/20 backdrop-blur-sm"
+        className="w-full mt-auto pb-8 border-t border-border/10 bg-background/20 backdrop-blur-sm"
       >
         <HeroCarousel />
       </motion.div>

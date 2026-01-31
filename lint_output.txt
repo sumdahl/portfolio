@@ -1,0 +1,154 @@
+$ eslint
+
+/Users/sumdahl/portfolio_website/app/(marketing)/about/page.tsx
+   4:10  warning  'Download' is defined but never used                             @typescript-eslint/no-unused-vars
+  17:14  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  21:40  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+/Users/sumdahl/portfolio_website/app/(marketing)/blog/[slug]/page.tsx
+  5:10  warning  'Calendar' is defined but never used  @typescript-eslint/no-unused-vars
+  5:20  warning  'Clock' is defined but never used     @typescript-eslint/no-unused-vars
+
+/Users/sumdahl/portfolio_website/app/(marketing)/contact/page.tsx
+    3:24  warning  'ExternalLink' is defined but never used                         @typescript-eslint/no-unused-vars
+    9:13  warning  'z' is defined but never used                                    @typescript-eslint/no-unused-vars
+   76:14  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  131:46  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+/Users/sumdahl/portfolio_website/app/(marketing)/login/page.tsx
+  52:14  warning  'err' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/sumdahl/portfolio_website/app/(marketing)/page.tsx
+  2:10  warning  'GitHubActivity' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/sumdahl/portfolio_website/app/(marketing)/projects/page.tsx
+  17:44  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+/Users/sumdahl/portfolio_website/app/api/blog/route.ts
+  5:10  warning  'cookies' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/sumdahl/portfolio_website/app/api/contact/route.ts
+  75:74  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/sumdahl/portfolio_website/app/dashboard/messages/page.tsx
+  6:32  warning  'MessageSquare' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/sumdahl/portfolio_website/app/dashboard/page.tsx
+   7:44  warning  'TrendingUp' is defined but never used                           @typescript-eslint/no-unused-vars
+  29:31  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  29:38  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+/Users/sumdahl/portfolio_website/app/dashboard/posts/page.tsx
+  9:28  warning  'Trash2' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/sumdahl/portfolio_website/components/blog/BlogCard.tsx
+  6:29  warning  'CardDescription' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/sumdahl/portfolio_website/components/dashboard/DeleteMessageButton.tsx
+  36:18  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/sumdahl/portfolio_website/components/dashboard/DeletePostButton.tsx
+  36:14  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/sumdahl/portfolio_website/components/dashboard/PostEditor.tsx
+   9:10  warning  'Badge' is defined but never used       @typescript-eslint/no-unused-vars
+  10:44  warning  'X' is defined but never used           @typescript-eslint/no-unused-vars
+  13:10  warning  'Typography' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/sumdahl/portfolio_website/components/dashboard/Sidebar.tsx
+    7:16  warning  'FileText' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       @typescript-eslint/no-unused-vars
+    7:40  warning  'Mail' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           @typescript-eslint/no-unused-vars
+  139:8   error    Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/Users/sumdahl/portfolio_website/components/dashboard/Sidebar.tsx:139:8
+  137 |   const sidebarContent = (
+  138 |     <div className="flex flex-col h-full bg-card/30 backdrop-blur-xl border-r border-border/50 shadow-2xl shadow-black/5">
+> 139 |       <SidebarHeader />
+      |        ^^^^^^^^^^^^^ This component is created during render
+  140 |
+  141 |       <div className="flex-1 overflow-y-auto py-6 scrollbar-thin scrollbar-thumb-border/50 scrollbar-track-transparent">
+  142 |         <div className="space-y-6">
+
+/Users/sumdahl/portfolio_website/components/dashboard/Sidebar.tsx:51:25
+  49 |   };
+  50 |
+> 51 |   const SidebarHeader = () => (
+     |                         ^^^^^^^
+> 52 |     <div className="p-6 border-b border-border/50">
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 53 |       <Link href="/dashboard" className="flex items-center gap-3 hover:opacity-80 transition-opacity group">
+     …
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 62 |     </div>
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 63 |   );
+     | ^^^^ The component is created during render here
+  64 |
+  65 |   const NavItem = ({ item }: { item: typeof navItems[0] }) => {
+  66 |     const Icon = item.icon;  react-hooks/static-components
+  172:8   error    Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/Users/sumdahl/portfolio_website/components/dashboard/Sidebar.tsx:172:8
+  170 |       </div>
+  171 |
+> 172 |       <UserMenu />
+      |        ^^^^^^^^ This component is created during render
+  173 |     </div>
+  174 |   );
+  175 |
+
+/Users/sumdahl/portfolio_website/components/dashboard/Sidebar.tsx:87:20
+   85 |   };
+   86 |
+>  87 |   const UserMenu = () => (
+      |                    ^^^^^^^
+>  88 |     <div className="p-4 border-t border-border/50 bg-muted/5">
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  89 |       <DropdownMenu>
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 134 |     </div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 135 |   );
+      | ^^^^ The component is created during render here
+  136 |
+  137 |   const sidebarContent = (
+  138 |     <div className="flex flex-col h-full bg-card/30 backdrop-blur-xl border-r border-border/50 shadow-2xl shadow-black/5">                                                                                                                                                                                                                                                                              react-hooks/static-components
+
+/Users/sumdahl/portfolio_website/components/github/ContributionHeatmap.tsx
+  21:3  warning  'totalContributions' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/sumdahl/portfolio_website/components/home/Contact.tsx
+    6:13  warning  'z' is defined but never used      @typescript-eslint/no-unused-vars
+   27:8   warning  'Link' is defined but never used   @typescript-eslint/no-unused-vars
+  120:41  warning  'index' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/sumdahl/portfolio_website/lib/auth.ts
+  23:34  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/sumdahl/portfolio_website/lib/github.ts
+  76:7  error  'currentDate' is never reassigned. Use 'const' instead  prefer-const
+
+/Users/sumdahl/portfolio_website/lib/supabase/middleware.ts
+  19:51  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  36:39  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/sumdahl/portfolio_website/lib/supabase/server.ts
+  15:51  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  18:20  warning  'error' is defined but never used         @typescript-eslint/no-unused-vars
+  24:39  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  27:20  warning  'error' is defined but never used         @typescript-eslint/no-unused-vars
+
+/Users/sumdahl/portfolio_website/lib/utils/api.ts
+   4:10  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  55:36  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  59:35  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+✖ 44 problems (19 errors, 25 warnings)
+  1 error and 0 warnings potentially fixable with the `--fix` option.
+
+error: script "lint" exited with code 1

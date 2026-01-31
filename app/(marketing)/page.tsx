@@ -1,5 +1,5 @@
 import { Hero } from '@/components/home/Hero';
-import { GitHubActivity } from '@/components/home/GitHubActivity';
+
 import { Contact } from '@/components/home/Contact';
 import { getContributionCalendar } from '@/lib/github';
 

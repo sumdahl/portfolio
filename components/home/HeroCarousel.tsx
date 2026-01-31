@@ -14,8 +14,14 @@ import {
     SiJavascript,
     SiHtml5,
     SiCss3,
-    SiGit
+    SiGit,
+    SiPython,
+    SiFastapi,
+    SiDotnet,
+    SiPostman,
+    SiN8N,
 } from 'react-icons/si';
+import { FaJava } from 'react-icons/fa';
 
 const techs = [
     { name: 'React', icon: SiReact, color: '#61DAFB' },
@@ -31,18 +37,30 @@ const techs = [
     { name: 'HTML5', icon: SiHtml5, color: '#E34F26' },
     { name: 'CSS3', icon: SiCss3, color: '#1572B6' },
     { name: 'Git', icon: SiGit, color: '#F05032' },
+    { name: 'Python', icon: SiPython, color: '#3776AB' },
+    { name: 'FastAPI', icon: SiFastapi, color: '#009688' },
+    { name: '.NET', icon: SiDotnet, color: '#512BD4' },
+    { name: 'Java', icon: FaJava, color: '#007396' },
+    { name: 'Postman', icon: SiPostman, color: '#FF6C37' },
+    { name: 'n8n', icon: SiN8N, color: '#FF6E5C' },
 ];
 
 export function HeroCarousel() {
     return (
-        <div className="w-full overflow-hidden py-10 opacity-75 grayscale hover:grayscale-0 transition-all duration-500">
+        <div
+            className="w-full overflow-hidden py-6 opacity-75 grayscale hover:grayscale-0 transition-all duration-500"
+            style={{
+                maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
+                WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
+            }}
+        >
             <motion.div
                 className="flex gap-16 w-max"
-                animate={{ x: [0, -1920] }} // Adjust based on content width
+                animate={{ x: ["0%", "-50%"] }}
                 transition={{
                     repeat: Infinity,
                     ease: "linear",
-                    duration: 30, // Slow, smooth scroll
+                    duration: 40, // Slower for better readability
                 }}
             >
                 {/* Double the list to create seamless loop */}

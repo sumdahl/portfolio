@@ -2,8 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { blogPosts } from '@/lib/db/schema';
 import { createClient } from '@/lib/supabase/server';
-import { cookies } from 'next/headers';
+
 import { desc } from 'drizzle-orm';
+import { postSchema } from '@/lib/validations/post';
 
 // GET - Fetch all blog posts
 export async function GET(request: NextRequest) {
@@ -54,14 +55,16 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { title, description, content, slug, tags, published, coverImage } = body;
+    const result = postSchema.safeParse(body);
 
-    if (!title || !description || !content || !slug) {
+    if (!result.success) {
       return NextResponse.json(
-        { error: 'Missing required fields' },
+        { error: 'Validation failed', details: result.error.flatten() },
         { status: 400 }
       );
     }
+
+    const { title, description, content, slug, tags, published, coverImage } = result.data;
 
     const newPost = await db
       .insert(blogPosts)

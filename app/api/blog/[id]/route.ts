@@ -3,6 +3,7 @@ import { db } from '@/lib/db';
 import { blogPosts } from '@/lib/db/schema';
 import { createClient } from '@/lib/supabase/server';
 import { eq } from 'drizzle-orm';
+import { postSchema } from '@/lib/validations/post';
 
 // GET - Fetch single blog post by ID
 export async function GET(
@@ -56,7 +57,16 @@ export async function PUT(
     }
 
     const body = await request.json();
-    const { title, description, content, slug, tags, published, coverImage } = body;
+    const result = postSchema.safeParse(body);
+
+    if (!result.success) {
+      return NextResponse.json(
+        { error: 'Validation failed', details: result.error.flatten() },
+        { status: 400 }
+      );
+    }
+
+    const { title, description, content, slug, tags, published, coverImage } = result.data;
 
     const updatedPost = await db
       .update(blogPosts)

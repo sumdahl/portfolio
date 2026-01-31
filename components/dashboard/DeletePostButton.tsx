@@ -33,7 +33,7 @@ export function DeletePostButton({ postId, className }: { postId: string, classN
       setOpen(false);
       router.refresh();
       toast.success('Post deleted successfully');
-    } catch (error) {
+    } catch {
       toast.error('Failed to delete post');
     } finally {
       setLoading(false);

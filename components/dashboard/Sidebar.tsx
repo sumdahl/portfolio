@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/button';
-import { Home, FileText, LogOut, User, Mail, LayoutDashboard, PenTool, MessageSquare, ChevronRight, Settings } from 'lucide-react';
+import { Home, LogOut, User, LayoutDashboard, PenTool, MessageSquare, ChevronRight, Settings } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -41,99 +41,6 @@ export function DashboardSidebar({ user, mobile }: DashboardSidebarProps & { mob
     router.refresh();
   };
 
-  const getInitials = (name?: string | null, email?: string | null) => {
-    if (name) {
-      return name.split(' ').map((n) => n[0]).join('').toUpperCase().slice(0, 2);
-    }
-    return email?.charAt(0).toUpperCase() || 'U';
-  };
-
-  const SidebarHeader = () => (
-    <div className="p-6 border-b border-border/50">
-      <Link href="/dashboard" className="flex items-center gap-3 hover:opacity-80 transition-opacity group">
-        <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center shadow-lg shadow-primary/20 group-hover:shadow-primary/30 transition-all">
-          <span className="text-xl font-bold text-white">B</span>
-        </div>
-        <div className="flex flex-col">
-          <span className="text-lg font-bold tracking-tight text-foreground/90">Blog Admin</span>
-          <span className="text-[10px] text-muted-foreground font-medium uppercase tracking-wider">Workspace</span>
-        </div>
-      </Link>
-    </div>
-  );
-
-  const NavItem = ({ item }: { item: typeof navItems[0] }) => {
-    const Icon = item.icon;
-    const isActive = pathname === item.href || pathname?.startsWith(`${item.href}/`);
-
-    return (
-      <Link
-        href={item.href}
-        className={cn(
-          "flex items-center gap-3 px-3 py-2.5 mx-3 rounded-lg text-sm transition-all duration-200 group relative overflow-hidden",
-          isActive
-            ? "bg-primary/10 text-primary font-semibold shadow-sm"
-            : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
-        )}
-      >
-        {isActive && <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary rounded-r-full" />}
-        <Icon className={cn("h-4 w-4 transition-colors", isActive ? "text-primary" : "text-muted-foreground group-hover:text-foreground")} />
-        <span className="flex-1">{item.label}</span>
-        {isActive && <ChevronRight className="h-3 w-3 opacity-50" />}
-      </Link>
-    );
-  };
-
-  const UserMenu = () => (
-    <div className="p-4 border-t border-border/50 bg-muted/5">
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button
-            variant="ghost"
-            className="w-full justify-start gap-3 p-2 h-auto hover:bg-muted/50 rounded-xl group transition-all"
-          >
-            <Avatar className="h-9 w-9 border border-border/50 shadow-sm transition-transform group-hover:scale-105">
-              <AvatarFallback className="bg-gradient-to-br from-primary/20 to-primary/5 text-primary text-xs font-bold">
-                {getInitials(user.name, user.email)}
-              </AvatarFallback>
-            </Avatar>
-            <div className="flex-1 text-left min-w-0">
-              <Typography.Small className="block text-foreground group-hover:text-primary transition-colors truncate">
-                {user.name || 'Admin User'}
-              </Typography.Small>
-              <Typography.Muted className="text-xs truncate opacity-70">
-                {user.email}
-              </Typography.Muted>
-            </div>
-            <Settings className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-56" sideOffset={8}>
-          <DropdownMenuLabel>
-            <Typography.Small>My Account</Typography.Small>
-          </DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem className="cursor-pointer gap-2">
-            <User className="h-4 w-4" />
-            <span>Profile</span>
-          </DropdownMenuItem>
-          <DropdownMenuItem className="cursor-pointer gap-2">
-            <Settings className="h-4 w-4" />
-            <span>Settings</span>
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem
-            onClick={handleLogout}
-            className="text-red-500 focus:text-red-500 focus:bg-red-50/10 cursor-pointer gap-2"
-          >
-            <LogOut className="h-4 w-4" />
-            <span>Logout</span>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </div>
-  );
-
   const sidebarContent = (
     <div className="flex flex-col h-full bg-card/30 backdrop-blur-xl border-r border-border/50 shadow-2xl shadow-black/5">
       <SidebarHeader />
@@ -146,7 +53,7 @@ export function DashboardSidebar({ user, mobile }: DashboardSidebarProps & { mob
             </Typography.Small>
             <nav className="space-y-1">
               {navItems.map((item) => (
-                <NavItem key={item.href} item={item} />
+                <NavItem key={item.href} item={item} pathname={pathname} />
               ))}
             </nav>
           </div>
@@ -169,7 +76,7 @@ export function DashboardSidebar({ user, mobile }: DashboardSidebarProps & { mob
         </div>
       </div>
 
-      <UserMenu />
+      <UserMenu user={user} onLogout={handleLogout} />
     </div>
   );
 
@@ -235,3 +142,96 @@ export function DashboardSidebar({ user, mobile }: DashboardSidebarProps & { mob
     </aside>
   );
 }
+
+const getInitials = (name?: string | null, email?: string | null) => {
+  if (name) {
+    return name.split(' ').map((n) => n[0]).join('').toUpperCase().slice(0, 2);
+  }
+  return email?.charAt(0).toUpperCase() || 'U';
+};
+
+const SidebarHeader = () => (
+  <div className="p-6 border-b border-border/50">
+    <Link href="/dashboard" className="flex items-center gap-3 hover:opacity-80 transition-opacity group">
+      <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center shadow-lg shadow-primary/20 group-hover:shadow-primary/30 transition-all">
+        <span className="text-xl font-bold text-white">B</span>
+      </div>
+      <div className="flex flex-col">
+        <span className="text-lg font-bold tracking-tight text-foreground/90">Blog Admin</span>
+        <span className="text-[10px] text-muted-foreground font-medium uppercase tracking-wider">Workspace</span>
+      </div>
+    </Link>
+  </div>
+);
+
+const NavItem = ({ item, pathname }: { item: { href: string; label: string; icon: React.ElementType }; pathname: string | null }) => {
+  const Icon = item.icon;
+  const isActive = pathname === item.href || pathname?.startsWith(`${item.href}/`);
+
+  return (
+    <Link
+      href={item.href}
+      className={cn(
+        "flex items-center gap-3 px-3 py-2.5 mx-3 rounded-lg text-sm transition-all duration-200 group relative overflow-hidden",
+        isActive
+          ? "bg-primary/10 text-primary font-semibold shadow-sm"
+          : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
+      )}
+    >
+      {isActive && <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary rounded-r-full" />}
+      <Icon className={cn("h-4 w-4 transition-colors", isActive ? "text-primary" : "text-muted-foreground group-hover:text-foreground")} />
+      <span className="flex-1">{item.label}</span>
+      {isActive && <ChevronRight className="h-3 w-3 opacity-50" />}
+    </Link>
+  );
+};
+
+const UserMenu = ({ user, onLogout }: { user: { name?: string | null; email?: string | null }; onLogout: () => void }) => (
+  <div className="p-4 border-t border-border/50 bg-muted/5">
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button
+          variant="ghost"
+          className="w-full justify-start gap-3 p-2 h-auto hover:bg-muted/50 rounded-xl group transition-all"
+        >
+          <Avatar className="h-9 w-9 border border-border/50 shadow-sm transition-transform group-hover:scale-105">
+            <AvatarFallback className="bg-gradient-to-br from-primary/20 to-primary/5 text-primary text-xs font-bold">
+              {getInitials(user.name, user.email)}
+            </AvatarFallback>
+          </Avatar>
+          <div className="flex-1 text-left min-w-0">
+            <Typography.Small className="block text-foreground group-hover:text-primary transition-colors truncate">
+              {user.name || 'Admin User'}
+            </Typography.Small>
+            <Typography.Muted className="text-xs truncate opacity-70">
+              {user.email}
+            </Typography.Muted>
+          </div>
+          <Settings className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-56" sideOffset={8}>
+        <DropdownMenuLabel>
+          <Typography.Small>My Account</Typography.Small>
+        </DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem className="cursor-pointer gap-2">
+          <User className="h-4 w-4" />
+          <span>Profile</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem className="cursor-pointer gap-2">
+          <Settings className="h-4 w-4" />
+          <span>Settings</span>
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem
+          onClick={onLogout}
+          className="text-red-500 focus:text-red-500 focus:bg-red-50/10 cursor-pointer gap-2"
+        >
+          <LogOut className="h-4 w-4" />
+          <span>Logout</span>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  </div>
+);

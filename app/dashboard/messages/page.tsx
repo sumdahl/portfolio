@@ -3,7 +3,7 @@ import { messages } from '@/lib/db/schema';
 import { desc } from 'drizzle-orm';
 import { Card, CardContent } from '@/components/ui/card';
 import { format } from 'date-fns';
-import { Mail, Calendar, User, MessageSquare, Inbox } from 'lucide-react';
+import { Mail, Calendar, User, Inbox } from 'lucide-react';
 import { Typography } from '@/components/ui/typography';
 import { DeleteMessageButton } from '@/components/dashboard/DeleteMessageButton';
 

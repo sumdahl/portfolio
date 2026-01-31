@@ -33,7 +33,7 @@ export function DeleteMessageButton({ messageId, className }: { messageId: strin
             setOpen(false);
             router.refresh();
             toast.success('Message deleted successfully');
-        } catch (error) {
+        } catch {
             toast.error('Failed to delete message');
         } finally {
             setLoading(false);
