@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Poppins } from "next/font/google"; // Updated font
+import { Poppins, JetBrains_Mono } from "next/font/google"; // Updated font
 import "./globals.css";
 import { Analytics } from "@/components/shared/Analytics";
 import { Toaster } from "@/components/ui/sonner";
@@ -8,6 +8,12 @@ const poppins = Poppins({
   variable: "--font-poppins",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"], // Added weights for Poppins
+  display: "swap",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
+  subsets: ["latin"],
   display: "swap",
 });
 
@@ -76,7 +82,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <body className={`${poppins.variable} antialiased font-sans`} suppressHydrationWarning>
+      <body className={`${poppins.variable} ${jetbrainsMono.variable} antialiased font-sans`} suppressHydrationWarning>
         {children}
         <Analytics />
         <Toaster />
