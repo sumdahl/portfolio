@@ -38,7 +38,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
         <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-primary/0 via-primary/5 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
 
         {/* Image / Icon Header */}
-        <div className="relative border-b border-white/5 h-48 overflow-hidden bg-muted/20">
+        <div className="relative border-b border-white/5 h-40 overflow-hidden bg-muted/20">
           {project.imageUrl ? (
             <div className="w-full h-full relative">
               <Image
@@ -61,9 +61,9 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
               <Link
                 href={project.liveUrl}
                 target="_blank"
-                className="p-2 bg-background/60 backdrop-blur-md border border-white/10 rounded-full hover:bg-primary hover:text-white transition-all shadow-lg"
+                className="p-1.5 bg-background/60 backdrop-blur-md border border-white/10 rounded-full hover:bg-primary hover:text-white transition-all shadow-lg"
               >
-                <ExternalLink className="w-4 h-4" />
+                <ExternalLink className="w-3.5 h-3.5" />
               </Link>
             )}
           </div>
@@ -72,51 +72,46 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
           <div className="absolute top-3 left-3 z-10">
             <Badge
               variant="secondary"
-              className="bg-background/80 backdrop-blur-md border border-white/10 text-[10px] uppercase tracking-wider font-semibold px-2.5 py-1 shadow-sm"
+              className="bg-background/80 backdrop-blur-md border border-white/10 text-[9px] uppercase tracking-wider font-semibold px-2 py-0.5 shadow-sm"
             >
               {project.type || 'Project'}
             </Badge>
           </div>
         </div>
 
-        <CardHeader className="pt-6 pb-2 px-6 space-y-1 relative z-10">
+        <CardHeader className="pt-4 pb-1 px-5 space-y-1 relative z-10">
           <div className="flex justify-between items-start gap-2">
-            <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors duration-300 line-clamp-1">
+            <h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors duration-300 line-clamp-1">
               {project.title}
             </h3>
           </div>
         </CardHeader>
 
-        <CardContent className="flex-1 px-6 py-2 space-y-4 relative z-10">
+        <CardContent className="flex-1 px-5 py-2 space-y-3 relative z-10">
           <p className="text-muted-foreground/90 text-sm leading-relaxed line-clamp-3 min-h-[3.75rem]">
             {project.description}
           </p>
 
-          <div className="flex flex-wrap gap-1.5 pt-2">
-            {project.techStack.slice(0, 4).map((tech) => (
+          <div className="flex flex-wrap gap-1 pt-1">
+            {project.techStack.map((tech) => (
               <Badge
                 key={tech}
                 variant="outline"
-                className="bg-primary/5 border-primary/10 text-primary/70 group-hover:bg-primary/10 group-hover:border-primary/20 text-[10px] py-0.5 px-2.5 transition-all"
+                className="bg-primary/5 border-primary/10 text-primary/70 group-hover:bg-primary/10 group-hover:border-primary/20 text-[9px] py-0 px-2 transition-all"
               >
                 {tech}
               </Badge>
             ))}
-            {project.techStack.length > 4 && (
-              <Badge variant="ghost" className="text-[10px] px-2 py-0.5 h-auto text-muted-foreground/60">
-                +{project.techStack.length - 4}
-              </Badge>
-            )}
           </div>
         </CardContent>
 
-        <CardFooter className="px-6 pb-6 pt-4 border-t border-border/20 mt-auto flex items-center justify-between relative z-10">
+        <CardFooter className="px-5 pb-4 pt-3 border-t border-border/20 mt-auto flex items-center justify-between relative z-10">
           <Link
             href={project.githubUrl}
             target="_blank"
-            className="inline-flex items-center text-xs font-semibold text-muted-foreground hover:text-foreground transition-colors group/link px-3 py-2 rounded-md hover:bg-muted/50 -ml-3"
+            className="inline-flex items-center text-xs font-semibold text-muted-foreground hover:text-foreground transition-colors group/link px-2 py-1.5 rounded-md hover:bg-muted/50 -ml-2"
           >
-            <Github className="w-4 h-4 mr-2 group-hover/link:text-primary transition-colors" />
+            <Github className="w-3.5 h-3.5 mr-1.5 group-hover/link:text-primary transition-colors" />
             Code
           </Link>
 
@@ -124,10 +119,10 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
             <Link
               href={project.liveUrl}
               target="_blank"
-              className="inline-flex items-center text-xs font-semibold text-primary/80 hover:text-primary transition-colors px-3 py-2 rounded-md hover:bg-primary/5 -mr-3"
+              className="inline-flex items-center text-xs font-semibold text-primary/80 hover:text-primary transition-colors px-2 py-1.5 rounded-md hover:bg-primary/5 -mr-2"
             >
               Live Demo
-              <ArrowUpRight className="w-4 h-4 ml-1.5" />
+              <ArrowUpRight className="w-3.5 h-3.5 ml-1" />
             </Link>
           )}
         </CardFooter>
