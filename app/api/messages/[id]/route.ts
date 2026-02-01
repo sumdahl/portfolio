@@ -2,20 +2,22 @@ import { db } from '@/lib/db';
 import { messages } from '@/lib/db/schema';
 import { eq } from 'drizzle-orm';
 import { NextResponse } from 'next/server';
-import { auth } from '@/lib/auth';
+import { createClient } from '@/lib/supabase/server';
 
 export async function DELETE(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await auth();
-    if (!session) {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
     // In a real app, you might want to check for admin role specifically
-    // if (session.user.role !== 'admin') { ... }
+    // if (user.user_metadata?.role !== 'admin') { ... }
 
     const { id } = await params;
 
