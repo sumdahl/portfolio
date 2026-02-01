@@ -10,14 +10,17 @@ import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import remarkGfm from 'remark-gfm';
 import { db } from '@/lib/db';
-import { blogPosts } from '@/lib/db/schema';
-import { eq } from 'drizzle-orm';
+import { blogAnalytics, blogPosts, comments, postLikes } from '@/lib/db/schema';
+import { eq, and, desc } from 'drizzle-orm';
 import { Badge } from '@/components/ui/badge';
 import { formatDate } from '@/lib/utils/date';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { getMDXComponents } from '@/components/blog/MDXComponents';
 import 'highlight.js/styles/github-dark.css';
 import type { Metadata } from 'next';
+import { SocialEngagement } from '@/components/blog/SocialEngagement';
+import { createClient } from '@/lib/supabase/server';
+import { getComments } from '@/app/actions/blog';
 
 export async function generateMetadata({
   params,
@@ -66,6 +69,26 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     notFound();
   }
 
+  // Fetch Social Data
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  const [analytics] = await db.select().from(blogAnalytics).where(eq(blogAnalytics.postId, post.id));
+  const initialLikes = analytics?.likes || 0;
+
+  let initialLiked = false;
+  if (user) {
+    const like = await db.query.postLikes.findFirst({
+      where: and(
+        eq(postLikes.postId, post.id),
+        eq(postLikes.userId, user.id)
+      )
+    });
+    initialLiked = !!like;
+  }
+
+  const initialComments = await getComments(post.id);
+
   const readingTime = Math.ceil(post.content.split(' ').length / 200);
 
   return (
@@ -105,8 +128,6 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6 leading-tight max-w-4xl mx-auto">{post.title}</h1>
           <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">{post.description}</p>
-
-
 
           <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground border-t border-b border-border py-4 max-w-2xl mx-auto">
             <div className="flex items-center gap-3">
@@ -156,6 +177,14 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           />
         </div>
 
+        {/* Social Engagement */}
+        <SocialEngagement
+          post={post}
+          initialLikes={initialLikes}
+          initialLiked={initialLiked}
+          initialComments={initialComments}
+          currentUser={user ? { id: user.id, name: user.user_metadata?.name || 'User', email: user.email } : null}
+        />
       </div>
     </article>
   );
