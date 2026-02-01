@@ -45,12 +45,12 @@
   --background: #293241;
   --foreground: #E0FBFC;
   
-  /* Card Colors */
-  --card: #3D5A80;
+  /* Card Colors - Slightly lighter than bg but dark enough for white text */
+  --card: #2e3b4e; 
   --card-foreground: #E0FBFC;
   
-  /* Popover Colors */
-  --popover: #3D5A80;
+  /* Popover Colors - Darker for distinct layering */
+  --popover: #232b38;
   --popover-foreground: #E0FBFC;
   
   /* Primary Colors (Action/CTA) */
@@ -62,7 +62,7 @@
   --secondary-foreground: #E0FBFC;
   
   /* Muted Colors */
-  --muted: #1f2e3a;
+  --muted: #1f2633;
   --muted-foreground: #98C1D9;
   
   /* Accent Colors */
@@ -70,13 +70,13 @@
   --accent-foreground: #293241;
   
   /* Destructive Colors */
-  --destructive: #E76F51;
-  --destructive-foreground: #E0FBFC;
+  --destructive: #ff6b6b; /* Brighter red/orange for visibility */
+  --destructive-foreground: #ffffff;
   
   /* Border and Input */
-  --border: rgba(152, 193, 217, 0.2);
-  --input: #3D5A80;
-  --ring: #98C1D9;
+  --border: rgba(152, 193, 217, 0.15);
+  --input: #2e3b4e;
+  --ring: #EE6C4D;
 }
 
 @layer base {
