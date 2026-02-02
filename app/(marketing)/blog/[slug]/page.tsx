@@ -126,8 +126,12 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             ))}
           </div>
 
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6 leading-tight max-w-4xl mx-auto">{post.title}</h1>
-          <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">{post.description}</p>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6 leading-tight max-w-4xl mx-auto">
+            {post.title}
+          </h1>
+          <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
+            {post.description}
+          </p>
 
           <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground border-t border-b border-border py-4 max-w-2xl mx-auto">
             <div className="flex items-center gap-3">
@@ -152,30 +156,23 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         </header>
 
         {/* Content */}
-        <div className="prose prose-invert prose-lg max-w-none prose-headings:text-foreground prose-p:text-muted-foreground prose-strong:text-foreground prose-code:text-primary prose-a:text-primary hover:prose-a:text-primary/80 transition-colors">
+        <div className="prose prose-invert prose-lg max-w-none prose-headings:text-foreground prose-p:text-muted-foreground prose-strong:text-foreground prose-code:text-primary transition-colors">
           <MDXRemote
-            source={post.content}
-            components={getMDXComponents()}
-            options={{
-              mdxOptions: {
-                remarkPlugins: [remarkGfm],
-                rehypePlugins: [
-                  rehypeHighlight,
-                  rehypeSlug,
-                  [
-                    rehypeAutolinkHeadings,
-                    {
-                      behavior: 'wrap',
-                      properties: {
-                        className: ['anchor'],
-                      },
-                    },
-                  ],
-                ],
-              },
-            }}
-          />
-        </div>
+    source={post.content}
+    components={getMDXComponents()}
+    options={{
+      mdxOptions: {
+        remarkPlugins: [remarkGfm],
+        rehypePlugins: [
+          rehypeHighlight,
+          rehypeSlug,
+          // Removed rehypeAutolinkHeadings
+        ],
+      },
+    }}
+  />
+</div>
+ 
 
         {/* Social Engagement */}
         <SocialEngagement
