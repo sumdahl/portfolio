@@ -12,15 +12,15 @@ export function getMDXComponents(): MDXComponents {
       <h3 className="text-2xl font-semibold text-body mt-4 mb-2">{children}</h3>
     ),
     p: ({ children }) => (
-      <p className="text-accent leading-relaxed mb-4">{children}</p>
+      <p className="text-foreground/90 leading-relaxed mb-4">{children}</p>
     ),
     ul: ({ children }) => (
-      <ul className="list-disc list-inside text-accent mb-4 space-y-2">{children}</ul>
+      <ul className="list-disc list-inside text-foreground/90 mb-4 space-y-2">{children}</ul>
     ),
     ol: ({ children }) => (
-      <ol className="list-decimal list-inside text-accent mb-4 space-y-2">{children}</ol>
+      <ol className="list-decimal list-inside text-foreground/90 mb-4 space-y-2">{children}</ol>
     ),
-    li: ({ children }) => <li className="text-accent">{children}</li>,
+    li: ({ children }) => <li className="text-foreground/90">{children}</li>,
     a: ({ href, children }) => (
       <a
         href={href}
@@ -32,12 +32,12 @@ export function getMDXComponents(): MDXComponents {
       </a>
     ),
     code: ({ children }) => (
-      <code className="bg-secondary/50 px-1.5 py-0.5 rounded text-sm text-accent font-mono">
+      <code className="bg-secondary/60 px-1.5 py-0.5 rounded-md text-[0.9rem] text-accent font-mono border border-border/60 shadow-sm">
         {children}
       </code>
     ),
     pre: ({ children }) => (
-      <pre className="bg-secondary/50 rounded-lg p-4 overflow-x-auto mb-4 border border-border">
+      <pre className="mb-6 rounded-xl border border-border bg-[#1f2633] px-4 py-4 sm:px-5 sm:py-4 overflow-x-auto shadow-xl">
         {children}
       </pre>
     ),
