@@ -63,10 +63,16 @@ export function Navigation() {
               <span className="sr-only">Toggle menu</span>
             </Button>
           </SheetTrigger>
-          <SheetContent side="right" className="w-[300px] sm:w-[400px] border-l border-border/50 bg-background/95 backdrop-blur-xl">
-            <SheetHeader className="text-left mb-8">
-              <SheetTitle className="text-2xl font-bold bg-gradient-to-r from-primary to-primary/50 bg-clip-text text-transparent">Menu</SheetTitle>
+          <SheetContent
+            side="right"
+            className="w-[300px] sm:w-[400px] border-l border-border/60 bg-gradient-to-b from-secondary/40 via-background to-background/95 backdrop-blur-xl shadow-2xl shadow-black/30 data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 data-[state=open]:zoom-in-95 data-[state=closed]:zoom-out-95"
+          >
+            <SheetHeader className="sr-only">
+              <SheetTitle>Navigation</SheetTitle>
             </SheetHeader>
+            <div className="px-4 pt-6 pb-3">
+              <div className="h-1 w-16 rounded-full bg-gradient-to-r from-primary via-accent to-primary/60 opacity-80" />
+            </div>
             <div className="flex flex-col gap-2">
               {navItems.map((item) => {
                 const Icon = item.icon;
@@ -77,17 +83,25 @@ export function Navigation() {
                     href={item.href}
                     onClick={() => setOpen(false)}
                     className={cn(
-                      'flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-200 group',
+                      'flex items-center gap-4 px-4 py-3 rounded-2xl border border-transparent transition-all duration-200 group',
                       isActive
-                        ? 'bg-primary/10 text-primary font-medium'
-                        : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                        ? 'bg-primary/15 text-primary font-semibold shadow-lg shadow-black/10 ring-1 ring-primary/20'
+                        : 'text-muted-foreground hover:bg-secondary/60 hover:text-foreground'
                     )}
                   >
-                    <Icon className={cn("w-5 h-5", isActive ? "text-primary" : "text-muted-foreground group-hover:text-foreground")} />
-                    <span className="text-lg">{item.name}</span>
+                    <span className={cn(
+                      "flex h-9 w-9 items-center justify-center rounded-xl border border-border/60 bg-background/60",
+                      isActive ? "border-primary/30 bg-primary/15" : "group-hover:border-border/90"
+                    )}>
+                      <Icon className={cn("w-4 h-4", isActive ? "text-primary" : "text-muted-foreground group-hover:text-foreground")} />
+                    </span>
+                    <span className="text-lg tracking-tight">{item.name}</span>
                   </Link>
                 );
               })}
+            </div>
+            <div className="mt-6 px-4">
+              <div className="h-px w-full bg-gradient-to-r from-transparent via-border/80 to-transparent" />
             </div>
           </SheetContent>
         </Sheet>
