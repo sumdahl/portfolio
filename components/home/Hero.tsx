@@ -99,6 +99,7 @@ export function Hero({ contributionCalendar }: HeroProps) {
               <ContributionHeatmap
                 weeks={contributionCalendar.weeks}
                 totalContributions={contributionCalendar.totalContributions}
+                year={contributionCalendar.year}
               />
             </div>
           )}

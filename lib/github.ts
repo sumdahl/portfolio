@@ -100,10 +100,12 @@ const generateMockData = (): GitHubContributionCalendar => {
     weeks.push({ contributionDays });
   }
 
-  console.log('DEBUG: Mock Data Generated', { totalContributions, weeksCount: weeks.length });
+  const year = today.getFullYear();
+  console.log('DEBUG: Mock Data Generated', { totalContributions, weeksCount: weeks.length, year });
   return {
     totalContributions,
     weeks,
+    year,
   };
 };
 
@@ -126,7 +128,10 @@ export async function getContributionCalendar(
       to,
     });
 
-    return response.user.contributionsCollection.contributionCalendar;
+    return {
+      ...response.user.contributionsCollection.contributionCalendar,
+      year: currentYear,
+    };
   } catch (error) {
     console.error('Error fetching GitHub contribution calendar:', error);
     return generateMockData(); // Fallback to mock data on error too
