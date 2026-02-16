@@ -8,6 +8,7 @@ import { Card } from '@/components/ui/card';
 interface ContributionHeatmapProps {
   weeks: GitHubContributionWeek[];
   totalContributions?: number;
+  year: number;
 }
 
 const LEVELS = {
@@ -18,7 +19,7 @@ const LEVELS = {
   4: 'bg-primary shadow-[0_0_8px_rgba(var(--primary),0.6)]', // Glow effect for high contribution
 };
 
-export function ContributionHeatmap({ weeks, totalContributions }: ContributionHeatmapProps) {
+export function ContributionHeatmap({ weeks, totalContributions, year }: ContributionHeatmapProps) {
   const [hoveredDay, setHoveredDay] = useState<{ day: GitHubRawContributionDay; x: number; y: number } | null>(null);
 
   // Calculate statistics
@@ -113,7 +114,7 @@ export function ContributionHeatmap({ weeks, totalContributions }: ContributionH
         </h3>
         {totalContributions !== undefined && (
           <span className="text-xs text-primary bg-primary/10 px-3 py-1 rounded-full font-medium border border-primary/20">
-            {totalContributions} contributions in the last year
+            {totalContributions} contributions in year {year}
           </span>
         )}
       </div>

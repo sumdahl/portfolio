@@ -17,6 +17,7 @@ export interface GitHubContributionWeek {
 export interface GitHubContributionCalendar {
   totalContributions: number;
   weeks: GitHubContributionWeek[];
+  year: number;
 }
 
 export interface GitHubRepository {
