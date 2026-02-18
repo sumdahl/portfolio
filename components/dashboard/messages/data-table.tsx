@@ -26,6 +26,8 @@ import { Input } from "@/components/ui/input"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
 import { apiClient } from "@/lib/utils/api"
+import { Message } from "./columns"
+import { Mail, User, Calendar, MessageSquare } from "lucide-react"
 
 import {
     AlertDialog,
@@ -37,6 +39,14 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
+
+import {
+    Sheet,
+    SheetContent,
+    SheetHeader,
+    SheetTitle,
+    SheetDescription,
+} from "@/components/ui/sheet"
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
@@ -52,6 +62,7 @@ export function DataTable<TData, TValue>({
     const [rowSelection, setRowSelection] = React.useState({})
     const [batchDeleting, setBatchDeleting] = React.useState(false)
     const [showDeleteDialog, setShowDeleteDialog] = React.useState(false)
+    const [selectedMessage, setSelectedMessage] = React.useState<Message | null>(null)
     const router = useRouter()
 
     const table = useReactTable({
@@ -167,6 +178,12 @@ export function DataTable<TData, TValue>({
                                 <TableRow
                                     key={row.id}
                                     data-state={row.getIsSelected() && "selected"}
+                                    className="cursor-pointer"
+                                    onClick={(e) => {
+                                        const target = e.target as HTMLElement;
+                                        if (target.closest('[role="checkbox"]') || target.closest('button') || target.closest('[role="menuitem"]')) return;
+                                        setSelectedMessage((row.original as unknown) as Message);
+                                    }}
                                 >
                                     {row.getVisibleCells().map((cell) => (
                                         <TableCell key={cell.id}>
@@ -213,6 +230,59 @@ export function DataTable<TData, TValue>({
                     Next
                 </Button>
             </div>
+
+            <Sheet open={!!selectedMessage} onOpenChange={(open) => !open && setSelectedMessage(null)}>
+                <SheetContent className="sm:max-w-md overflow-y-auto">
+                    {selectedMessage && (
+                        <>
+                            <SheetHeader>
+                                <SheetTitle className="text-xl">{selectedMessage.name}</SheetTitle>
+                                <SheetDescription className="flex items-center gap-1.5">
+                                    <Mail className="h-3.5 w-3.5" />
+                                    {selectedMessage.email}
+                                </SheetDescription>
+                            </SheetHeader>
+
+                            <div className="space-y-6 px-4 pb-4">
+                                <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                                    <Calendar className="h-3.5 w-3.5" />
+                                    {new Date(selectedMessage.createdAt).toLocaleDateString(undefined, {
+                                        year: 'numeric',
+                                        month: 'long',
+                                        day: 'numeric',
+                                        hour: '2-digit',
+                                        minute: '2-digit',
+                                    })}
+                                </div>
+
+                                <div className="space-y-2">
+                                    <div className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground">
+                                        <MessageSquare className="h-3.5 w-3.5" />
+                                        Message
+                                    </div>
+                                    <p className="text-sm leading-relaxed whitespace-pre-wrap break-words">
+                                        {selectedMessage.message}
+                                    </p>
+                                </div>
+
+                                <div className="flex gap-2 pt-2">
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => {
+                                            navigator.clipboard.writeText(selectedMessage.email);
+                                            toast.success('Email copied to clipboard');
+                                        }}
+                                    >
+                                        <Mail className="mr-2 h-3.5 w-3.5" />
+                                        Copy Email
+                                    </Button>
+                                </div>
+                            </div>
+                        </>
+                    )}
+                </SheetContent>
+            </Sheet>
         </div>
     )
 }
