@@ -46,7 +46,7 @@ export function DeleteAllDialog() {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button variant="destructive" className="gap-2">
+                <Button variant="destructive" className="gap-2 cursor-pointer">
                     <Trash2 className="h-4 w-4" />
                     Delete All Messages
                 </Button>
