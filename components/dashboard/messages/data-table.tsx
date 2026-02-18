@@ -27,7 +27,7 @@ import { toast } from "sonner"
 import { useRouter } from "next/navigation"
 import { apiClient } from "@/lib/utils/api"
 import { Message } from "./columns"
-import { Mail, User, Calendar, MessageSquare } from "lucide-react"
+import { Mail, Copy, Calendar, MessageSquare } from "lucide-react"
 
 import {
     AlertDialog,
@@ -84,7 +84,6 @@ export function DataTable<TData, TValue>({
 
     const executeBatchDelete = async () => {
         const selectedRows = table.getFilteredSelectedRowModel().rows;
-        // @ts-ignore
         const ids = selectedRows.map(row => (row.original as any).id);
 
         setBatchDeleting(true);
@@ -235,15 +234,25 @@ export function DataTable<TData, TValue>({
                 <SheetContent className="sm:max-w-md overflow-y-auto">
                     {selectedMessage && (
                         <>
-                            <SheetHeader>
+                            <SheetHeader className="pb-0">
                                 <SheetTitle className="text-xl">{selectedMessage.name}</SheetTitle>
                                 <SheetDescription className="flex items-center gap-1.5">
                                     <Mail className="h-3.5 w-3.5" />
                                     {selectedMessage.email}
+                                    <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        className="h-6 w-6 hover:text-foreground cursor-pointer border-none"
+                                        onClick={() => {
+                                            navigator.clipboard.writeText(selectedMessage.email);
+                                            toast.success('Email copied to clipboard');
+                                        }}
+                                    >
+                                        <Copy className="h-3.5 w-3.5" />
+                                    </Button>
                                 </SheetDescription>
                             </SheetHeader>
-
-                            <div className="space-y-6 px-4 pb-4">
+                            <div className="space-y-4 px-4 pb-4">
                                 <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
                                     <Calendar className="h-3.5 w-3.5" />
                                     {new Date(selectedMessage.createdAt).toLocaleDateString(undefined, {
@@ -254,35 +263,23 @@ export function DataTable<TData, TValue>({
                                         minute: '2-digit',
                                     })}
                                 </div>
-
                                 <div className="space-y-2">
                                     <div className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground">
                                         <MessageSquare className="h-3.5 w-3.5" />
                                         Message
                                     </div>
-                                    <p className="text-sm leading-relaxed whitespace-pre-wrap break-words">
-                                        {selectedMessage.message}
-                                    </p>
-                                </div>
-
-                                <div className="flex gap-2 pt-2">
-                                    <Button
-                                        variant="outline"
-                                        size="sm"
-                                        onClick={() => {
-                                            navigator.clipboard.writeText(selectedMessage.email);
-                                            toast.success('Email copied to clipboard');
-                                        }}
-                                    >
-                                        <Mail className="mr-2 h-3.5 w-3.5" />
-                                        Copy Email
-                                    </Button>
+                                    <div className="rounded-md bg-muted p-3">
+                                        <p className="text-sm leading-relaxed whitespace-pre-wrap break-words">
+                                            {selectedMessage.message}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </>
                     )}
                 </SheetContent>
             </Sheet>
+
         </div>
     )
 }
