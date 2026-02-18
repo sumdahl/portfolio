@@ -36,7 +36,6 @@ export default function LoginPage() {
       }
 
       if (data.user) {
-        // Check if user is admin
         const isAdmin = data.user.user_metadata?.role === 'admin' ||
           data.user.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL;
 
@@ -58,7 +57,6 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-background">
-      {/* Background Decoration */}
       <div className="absolute inset-0 z-0">
         <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-primary/20 blur-[120px]" />
         <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-secondary/20 blur-[120px]" />
@@ -145,11 +143,6 @@ export default function LoginPage() {
               </Button>
             </form>
           </CardContent>
-          <CardFooter className="flex justify-center border-t border-border/50 pt-6">
-            <p className="text-xs text-center text-muted-foreground">
-              Protected area. Unauthorized access is prohibited.
-            </p>
-          </CardFooter>
         </Card>
       </div>
     </div>
