@@ -10,6 +10,8 @@ import { PlusCircle, Edit, Calendar, Hash, Globe, EyeOff, LayoutTemplate } from 
 import { DeletePostButton } from '@/components/dashboard/DeletePostButton';
 import { Typography } from '@/components/ui/typography';
 
+export const dynamic = 'force-dynamic';
+
 export default async function PostsPage() {
   const posts = await db.query.blogPosts.findMany({
     orderBy: [desc(blogPosts.createdAt)],
