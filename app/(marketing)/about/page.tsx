@@ -1,15 +1,26 @@
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { ExternalLink, GraduationCap, Briefcase, FileText, Calendar } from 'lucide-react';
-import Link from 'next/link';
-import { TechStack } from '@/components/about/TechStack';
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import {
+  ExternalLink,
+  GraduationCap,
+  Briefcase,
+  FileText,
+  Calendar,
+} from "lucide-react";
+import Link from "next/link";
+import { TechStack } from "@/components/about/TechStack";
 
 export default function AboutPage() {
   return (
     <div className="container mx-auto px-4 py-16">
       <div className="max-w-4xl mx-auto space-y-16">
-
         {/* Intro Section */}
         <section className="space-y-6 relative">
           <div className="absolute inset-0 bg-primary/5 blur-3xl -z-10 rounded-full opacity-50" />
@@ -17,10 +28,17 @@ export default function AboutPage() {
             About Me
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-3xl">
-            I&apos;m a Full-Stack Software Engineer passionate about building modern, scalable, and user-friendly web applications. Experienced in both frontend and backend development, I create end-to-end solutions that solve real-world problems while writing clean, maintainable code.
+            I&apos;m a Full-Stack Software Engineer passionate about building
+            modern, scalable, and user-friendly web applications. Experienced in
+            both frontend and backend development, I create end-to-end solutions
+            that solve real-world problems while writing clean, maintainable
+            code.
           </p>
           <div className="flex gap-4">
-            <Button className="rounded-full shadow-lg hover:shadow-primary/25 transition-all duration-300" asChild>
+            <Button
+              className="rounded-full shadow-lg hover:shadow-primary/25 transition-all duration-300"
+              asChild
+            >
               <Link href="/contact">Let&apos;s Connect</Link>
             </Button>
           </div>
@@ -77,7 +95,10 @@ export default function AboutPage() {
                         </Button>
                       </div>
                     </div>
-                    <Badge variant="secondary" className="font-mono text-xs ml-4">
+                    <Badge
+                      variant="secondary"
+                      className="font-mono text-xs ml-4"
+                    >
                       2025
                     </Badge>
                   </div>
@@ -88,7 +109,10 @@ export default function AboutPage() {
                     <span>Jun 2025 - Sep 2025</span>
                   </div>
                   <p className="text-muted-foreground">
-                    Developed hands-on experience in contemporary web development, backend programming, and workflow automation. Built scalable interfaces with React and Next.js, and robust backend services with Python Flask.
+                    Developed hands-on experience in contemporary web
+                    development, backend programming, and workflow automation.
+                    Built scalable interfaces with React and Next.js, and robust
+                    backend services with Python Flask.
                   </p>
                 </CardContent>
               </Card>
@@ -107,27 +131,32 @@ export default function AboutPage() {
                 <CardHeader>
                   <div className="flex justify-between items-start">
                     <div className="space-y-1">
-                      <CardTitle className="text-xl font-bold">Bachelor of Information Technology</CardTitle>
-                      <CardDescription className="text-base">Amrit Campus, Tribhuvan University</CardDescription>
+                      <CardTitle className="text-xl font-bold">
+                        Bachelor of Information Technology
+                      </CardTitle>
+                      <CardDescription className="text-base">
+                        Amrit Campus, Tribhuvan University
+                      </CardDescription>
                     </div>
                     <Badge variant="outline" className="font-mono text-xs">
-                      Running
+                      Completed
                     </Badge>
                   </div>
                 </CardHeader>
                 <CardContent>
                   <div className="flex items-center gap-2 text-sm text-muted-foreground font-mono mb-4">
                     <Calendar className="w-4 h-4" />
-                    <span>Mar 2022 - Present</span>
+                    <span>Mar 2022 - Mar 2026</span>
                   </div>
                   <p className="text-muted-foreground">
-                    Focused on software engineering fundamentals, data structures, algorithms, and modern web technologies, strengthening core computer science principles overall.
+                    Focused on software engineering fundamentals, data
+                    structures, algorithms, and modern web technologies,
+                    strengthening core computer science principles overall.
                   </p>
                 </CardContent>
               </Card>
             </section>
           </div>
-
         </div>
       </div>
     </div>
