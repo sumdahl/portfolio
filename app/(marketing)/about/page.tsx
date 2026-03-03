@@ -13,6 +13,7 @@ import {
   Briefcase,
   FileText,
   Calendar,
+  Download,
 } from "lucide-react";
 import Link from "next/link";
 import { TechStack } from "@/components/about/TechStack";
@@ -40,6 +41,16 @@ export default function AboutPage() {
               asChild
             >
               <Link href="/contact">Let&apos;s Connect</Link>
+            </Button>
+            <Button
+              variant="outline"
+              className="rounded-full shadow-lg hover:shadow-primary/25 hover:text-foreground hover:bg-background transition-all duration-300 gap-2"
+              asChild
+            >
+              <a href="/resume.pdf" target="_blank" rel="noopener noreferrer">
+                <Download className="w-4 h-4" />
+                Download Resume
+              </a>
             </Button>
           </div>
         </section>
