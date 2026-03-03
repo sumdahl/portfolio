@@ -92,11 +92,11 @@ export default function AboutPage() {
                         <Button
                           variant="outline"
                           size="sm"
-                          className="gap-2 ml-auto"
+                          className="gap-2 ml-auto hover:text-foreground hover:bg-background"
                           asChild
                         >
                           <a
-                            href="/internship-letter.png"
+                            href="/internship_letter.pdf"
                             target="_blank"
                             rel="noopener noreferrer"
                           >
