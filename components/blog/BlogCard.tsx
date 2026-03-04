@@ -25,8 +25,8 @@ export function BlogCard({ post, index }: BlogCardProps) {
       className="h-full"
     >
       <Link href={`/blog/${post.slug}`} className="block h-full">
-        <Card className="h-full flex flex-col bg-card border-border hover:border-accent/50 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer overflow-hidden group">
-          <div className="relative w-full aspect-video overflow-hidden bg-muted">
+        <Card className="h-full flex flex-col bg-card border-border hover:border-accent/50 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer overflow-hidden group [&]:py-0">
+          <div className="relative w-full aspect-video overflow-hidden bg-muted rounded-t-xl">
             {post.coverImage ? (
               <Image
                 src={post.coverImage}
@@ -42,7 +42,7 @@ export function BlogCard({ post, index }: BlogCardProps) {
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
           </div>
 
-          <CardHeader className="space-y-2">
+          <CardHeader className="space-y-2 p-4 pb-0">
             <div className="flex flex-wrap gap-2 mb-2">
               {post.tags.slice(0, 3).map((tag) => (
                 <Badge key={tag} variant="secondary" className="bg-primary/10 text-primary hover:bg-primary/20 transition-colors text-xs">
@@ -55,13 +55,13 @@ export function BlogCard({ post, index }: BlogCardProps) {
             </CardTitle>
           </CardHeader>
 
-          <CardContent className="flex-1">
+          <CardContent className="flex-1 p-4 pt-2">
             <p className="text-muted-foreground text-sm line-clamp-3 leading-relaxed">
               {post.description}
             </p>
           </CardContent>
 
-          <CardFooter className="pt-4 mt-auto border-t border-border/50">
+          <CardFooter className="pt-4 mt-auto border-t border-border/50 p-4">
             <div className="flex items-center justify-between w-full text-xs text-muted-foreground/80">
               <div className="flex items-center gap-1.5">
                 <Calendar className="w-3.5 h-3.5" />

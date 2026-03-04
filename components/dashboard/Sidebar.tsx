@@ -1,10 +1,19 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
-import { createClient } from '@/lib/supabase/client';
-import { Button } from '@/components/ui/button';
-import { Home, LogOut, User, LayoutDashboard, PenTool, MessageSquare, ChevronRight, Settings } from 'lucide-react';
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
+import { Button } from "@/components/ui/button";
+import {
+  Home,
+  LogOut,
+  User,
+  LayoutDashboard,
+  PenTool,
+  MessageSquare,
+  ChevronRight,
+  Settings,
+} from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,10 +21,10 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { Typography } from '@/components/ui/typography';
-import { cn } from '@/lib/utils';
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Typography } from "@/components/ui/typography";
+import { cn } from "@/lib/utils";
 
 interface DashboardSidebarProps {
   user: {
@@ -24,20 +33,23 @@ interface DashboardSidebarProps {
   };
 }
 
-export function DashboardSidebar({ user, mobile }: DashboardSidebarProps & { mobile?: boolean }) {
+export function DashboardSidebar({
+  user,
+  mobile,
+}: DashboardSidebarProps & { mobile?: boolean }) {
   const pathname = usePathname();
   const router = useRouter();
   const supabase = createClient();
 
   const navItems = [
-    { href: '/dashboard', label: 'Overview', icon: LayoutDashboard },
-    { href: '/dashboard/posts', label: 'Posts', icon: PenTool },
-    { href: '/dashboard/messages', label: 'Messages', icon: MessageSquare },
+    { href: "/dashboard", label: "Overview", icon: LayoutDashboard },
+    { href: "/dashboard/posts", label: "Posts", icon: PenTool },
+    { href: "/dashboard/messages", label: "Messages", icon: MessageSquare },
   ];
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    router.push('/');
+    router.push("/");
     router.refresh();
   };
 
@@ -92,14 +104,22 @@ export function DashboardSidebar({ user, mobile }: DashboardSidebarProps & { mob
           </div>
 
           <div className="flex items-center gap-3">
-            <Button asChild variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-primary">
+            <Button
+              asChild
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8 text-muted-foreground hover:text-primary"
+            >
               <Link href="/">
                 <Home className="h-4 w-4" />
               </Link>
             </Button>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-9 w-9 rounded-full p-0 overflow-hidden border border-primary/20 hover:border-primary/50 transition-colors shadow-sm">
+                <Button
+                  variant="ghost"
+                  className="relative h-9 w-9 rounded-full p-0 overflow-hidden border border-primary/20 hover:border-primary/50 transition-colors shadow-sm"
+                >
                   <Avatar className="h-full w-full">
                     <AvatarFallback className="bg-primary/10 text-primary font-bold text-xs">
                       {getInitials(user.name, user.email)}
@@ -110,8 +130,10 @@ export function DashboardSidebar({ user, mobile }: DashboardSidebarProps & { mob
               <DropdownMenuContent className="w-56" align="end" forceMount>
                 <DropdownMenuLabel>
                   <div className="flex flex-col space-y-1">
-                    <Typography.Small>{user.name || 'Admin'}</Typography.Small>
-                    <Typography.Muted className="text-xs">{user.email}</Typography.Muted>
+                    <Typography.Small>{user.name || "Admin"}</Typography.Small>
+                    <Typography.Muted className="text-xs">
+                      {user.email}
+                    </Typography.Muted>
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
@@ -124,7 +146,10 @@ export function DashboardSidebar({ user, mobile }: DashboardSidebarProps & { mob
                   </DropdownMenuItem>
                 ))}
                 <DropdownMenuSeparator />
-                <DropdownMenuItem className="text-destructive focus:text-destructive cursor-pointer gap-2" onClick={handleLogout}>
+                <DropdownMenuItem
+                  className="text-destructive focus:text-destructive cursor-pointer gap-2"
+                  onClick={handleLogout}
+                >
                   <LogOut className="h-4 w-4" />
                   Log out
                 </DropdownMenuItem>
@@ -145,28 +170,49 @@ export function DashboardSidebar({ user, mobile }: DashboardSidebarProps & { mob
 
 const getInitials = (name?: string | null, email?: string | null) => {
   if (name) {
-    return name.split(' ').map((n) => n[0]).join('').toUpperCase().slice(0, 2);
+    return name
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase()
+      .slice(0, 2);
   }
-  return email?.charAt(0).toUpperCase() || 'U';
+  return email?.charAt(0).toUpperCase() || "U";
 };
 
 const SidebarHeader = () => (
   <div className="p-6 border-b border-border/50">
-    <Link href="/dashboard" className="flex items-center gap-3 hover:opacity-80 transition-opacity group">
+    <Link
+      href="/dashboard"
+      className="flex items-center gap-3 hover:opacity-80 transition-opacity group"
+    >
       <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center shadow-lg shadow-primary/20 group-hover:shadow-primary/30 transition-all">
         <span className="text-xl font-bold text-white">B</span>
       </div>
       <div className="flex flex-col">
-        <span className="text-lg font-bold tracking-tight text-foreground/90">Blog Admin</span>
-        <span className="text-[10px] text-muted-foreground font-medium uppercase tracking-wider">Workspace</span>
+        <span className="text-lg font-bold tracking-tight text-foreground/90">
+          Blog Admin
+        </span>
+        <span className="text-[10px] text-muted-foreground font-medium uppercase tracking-wider">
+          Workspace
+        </span>
       </div>
     </Link>
   </div>
 );
 
-const NavItem = ({ item, pathname }: { item: { href: string; label: string; icon: React.ElementType }; pathname: string | null }) => {
+const NavItem = ({
+  item,
+  pathname,
+}: {
+  item: { href: string; label: string; icon: React.ElementType };
+  pathname: string | null;
+}) => {
   const Icon = item.icon;
-  const isActive = pathname === item.href || pathname?.startsWith(`${item.href}/`);
+  const isActive =
+    item.href === "/dashboard"
+      ? pathname === "/dashboard"
+      : pathname?.startsWith(item.href);
 
   return (
     <Link
@@ -175,18 +221,33 @@ const NavItem = ({ item, pathname }: { item: { href: string; label: string; icon
         "flex items-center gap-3 px-3 py-2.5 mx-3 rounded-lg text-sm transition-all duration-200 group relative overflow-hidden",
         isActive
           ? "bg-primary/20 text-primary font-bold shadow-md ring-1 ring-primary/20"
-          : "text-muted-foreground hover:bg-muted/40 hover:text-foreground"
+          : "text-muted-foreground hover:bg-muted/40 hover:text-foreground",
       )}
     >
-      {isActive && <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary rounded-r-full" />}
-      <Icon className={cn("h-4 w-4 transition-colors", isActive ? "text-primary" : "text-muted-foreground group-hover:text-foreground")} />
+      {isActive && (
+        <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary rounded-r-full" />
+      )}
+      <Icon
+        className={cn(
+          "h-4 w-4 transition-colors",
+          isActive
+            ? "text-primary"
+            : "text-muted-foreground group-hover:text-foreground",
+        )}
+      />
       <span className="flex-1">{item.label}</span>
       {isActive && <ChevronRight className="h-3 w-3 opacity-50" />}
     </Link>
   );
 };
 
-const UserMenu = ({ user, onLogout }: { user: { name?: string | null; email?: string | null }; onLogout: () => void }) => (
+const UserMenu = ({
+  user,
+  onLogout,
+}: {
+  user: { name?: string | null; email?: string | null };
+  onLogout: () => void;
+}) => (
   <div className="p-4 border-t border-border/50 bg-muted/5">
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -201,7 +262,7 @@ const UserMenu = ({ user, onLogout }: { user: { name?: string | null; email?: st
           </Avatar>
           <div className="flex-1 text-left min-w-0">
             <Typography.Small className="block text-foreground group-hover:text-primary transition-colors truncate">
-              {user.name || 'Admin User'}
+              {user.name || "Admin User"}
             </Typography.Small>
             <Typography.Muted className="text-xs truncate opacity-70">
               {user.email}
