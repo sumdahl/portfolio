@@ -4,7 +4,7 @@ import { eq, count } from 'drizzle-orm';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { PlusCircle, FileText, Eye, Edit3, Sparkles, Activity } from 'lucide-react';
+import { PlusCircle, FileText, Eye, Edit3, Sparkles, Activity, ExternalLink } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { formatDate } from '@/lib/utils/date';
 
@@ -123,6 +123,13 @@ export default async function DashboardPage() {
                     <Badge variant={post.published ? "default" : "secondary"} className={`${post.published ? 'bg-green-500 hover:bg-green-600' : 'bg-yellow-500/10 text-yellow-500 hover:bg-yellow-500/20'} transition-all`}>
                       {post.published ? 'Published' : 'Draft'}
                     </Badge>
+                    {post.published && (
+                      <Button variant="ghost" size="icon" asChild className="opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Link href={`/blog/${post.slug}`} target="_blank">
+                          <ExternalLink className="w-4 h-4 text-muted-foreground hover:text-foreground" />
+                        </Link>
+                      </Button>
+                    )}
                     <Button variant="ghost" size="icon" asChild className="opacity-0 group-hover:opacity-100 transition-opacity">
                       <Link href={`/dashboard/posts/${post.id}/edit`}>
                         <Edit3 className="w-4 h-4 text-muted-foreground hover:text-foreground" />
