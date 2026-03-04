@@ -1,26 +1,25 @@
-import { notFound } from 'next/navigation';
+import { notFound } from "next/navigation";
 
-export const dynamic = 'force-dynamic';
-import { MDXRemote } from 'next-mdx-remote/rsc';
-import { ArrowLeft } from 'lucide-react';
-import Link from 'next/link';
-import Image from 'next/image';
-import rehypeHighlight from 'rehype-highlight';
-import rehypeSlug from 'rehype-slug';
-import rehypeAutolinkHeadings from 'rehype-autolink-headings';
-import remarkGfm from 'remark-gfm';
-import { db } from '@/lib/db';
-import { blogAnalytics, blogPosts, comments, postLikes } from '@/lib/db/schema';
-import { eq, and, desc } from 'drizzle-orm';
-import { Badge } from '@/components/ui/badge';
-import { formatDate } from '@/lib/utils/date';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { getMDXComponents } from '@/components/blog/MDXComponents';
-import 'highlight.js/styles/github-dark.css';
-import type { Metadata } from 'next';
-import { SocialEngagement } from '@/components/blog/SocialEngagement';
-import { createClient } from '@/lib/supabase/server';
-import { getComments } from '@/app/actions/blog';
+export const dynamic = "force-dynamic";
+import { MDXRemote } from "next-mdx-remote/rsc";
+import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
+import Image from "next/image";
+import rehypeHighlight from "rehype-highlight";
+import rehypeSlug from "rehype-slug";
+import remarkGfm from "remark-gfm";
+import { db } from "@/lib/db";
+import { blogAnalytics, blogPosts, postLikes } from "@/lib/db/schema";
+import { eq, and } from "drizzle-orm";
+import { Badge } from "@/components/ui/badge";
+import { formatDate } from "@/lib/utils/date";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { getMDXComponents } from "@/components/blog/MDXComponents";
+import "highlight.js/styles/github-dark.css";
+import type { Metadata } from "next";
+import { SocialEngagement } from "@/components/blog/SocialEngagement";
+import { createClient } from "@/lib/supabase/server";
+import { getComments } from "@/app/actions/blog";
 
 export async function generateMetadata({
   params,
@@ -35,7 +34,7 @@ export async function generateMetadata({
 
   if (!post) {
     return {
-      title: 'Post Not Found',
+      title: "Post Not Found",
     };
   }
 
@@ -45,20 +44,24 @@ export async function generateMetadata({
     openGraph: {
       title: post.title,
       description: post.description,
-      type: 'article',
+      type: "article",
       publishedTime: post.createdAt.toISOString(),
       authors: [post.authorName],
       tags: post.tags,
     },
     twitter: {
-      card: 'summary_large_image',
+      card: "summary_large_image",
       title: post.title,
       description: post.description,
     },
   };
 }
 
-export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function BlogPostPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
   const { slug } = await params;
 
   const post = await db.query.blogPosts.findFirst({
@@ -71,25 +74,27 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
   // Fetch Social Data
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-  const [analytics] = await db.select().from(blogAnalytics).where(eq(blogAnalytics.postId, post.id));
+  const [analytics] = await db
+    .select()
+    .from(blogAnalytics)
+    .where(eq(blogAnalytics.postId, post.id));
   const initialLikes = analytics?.likes || 0;
 
   let initialLiked = false;
   if (user) {
     const like = await db.query.postLikes.findFirst({
-      where: and(
-        eq(postLikes.postId, post.id),
-        eq(postLikes.userId, user.id)
-      )
+      where: and(eq(postLikes.postId, post.id), eq(postLikes.userId, user.id)),
     });
     initialLiked = !!like;
   }
 
   const initialComments = await getComments(post.id);
 
-  const readingTime = Math.ceil(post.content.split(' ').length / 200);
+  const readingTime = Math.ceil(post.content.split(" ").length / 200);
 
   return (
     <article className="container mx-auto px-4 py-16">
@@ -120,7 +125,11 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         <header className="mb-10 text-center">
           <div className="flex flex-wrap items-center justify-center gap-2 mb-6">
             {post.tags.map((tag) => (
-              <Badge key={tag} variant="secondary" className="bg-primary/10 text-primary hover:bg-primary/20 transition-colors">
+              <Badge
+                key={tag}
+                variant="secondary"
+                className="bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
+              >
                 {tag}
               </Badge>
             ))}
@@ -136,16 +145,26 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground border-t border-b border-border py-4 max-w-2xl mx-auto">
             <div className="flex items-center gap-3">
               <Avatar className="h-10 w-10 border border-primary/20">
-                <AvatarImage src="/images/profile/profile-sm.jpg" alt={post.authorName} className="object-cover" />
+                <AvatarImage
+                  src="/images/profile/profile-sm.jpg"
+                  alt={post.authorName}
+                  className="object-cover"
+                />
                 <AvatarFallback className="bg-primary/10 text-primary font-bold">
                   {post.authorName.charAt(0).toUpperCase()}
                 </AvatarFallback>
               </Avatar>
               <div className="flex flex-col text-left">
-                <span className="font-medium text-foreground">{post.authorName}</span>
+                <span className="font-medium text-foreground">
+                  {post.authorName}
+                </span>
                 <div className="flex items-center gap-2 text-xs">
                   <time dateTime={post.createdAt.toISOString()}>
-                    {formatDate(post.createdAt, { year: 'numeric', month: 'short', day: 'numeric' })}
+                    {formatDate(post.createdAt, {
+                      year: "numeric",
+                      month: "short",
+                      day: "numeric",
+                    })}
                   </time>
                   <span>•</span>
                   <span>{readingTime} min read</span>
@@ -158,21 +177,20 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         {/* Content */}
         <div className="prose prose-invert prose-lg max-w-none prose-headings:text-foreground prose-p:text-muted-foreground prose-strong:text-foreground prose-code:text-primary transition-colors">
           <MDXRemote
-    source={post.content}
-    components={getMDXComponents()}
-    options={{
-      mdxOptions: {
-        remarkPlugins: [remarkGfm],
-        rehypePlugins: [
-          rehypeHighlight,
-          rehypeSlug,
-          // Removed rehypeAutolinkHeadings
-        ],
-      },
-    }}
-  />
-</div>
- 
+            source={post.content}
+            components={getMDXComponents()}
+            options={{
+              mdxOptions: {
+                remarkPlugins: [remarkGfm],
+                rehypePlugins: [
+                  rehypeHighlight,
+                  rehypeSlug,
+                  // Removed rehypeAutolinkHeadings
+                ],
+              },
+            }}
+          />
+        </div>
 
         {/* Social Engagement */}
         <SocialEngagement
@@ -180,7 +198,15 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           initialLikes={initialLikes}
           initialLiked={initialLiked}
           initialComments={initialComments}
-          currentUser={user ? { id: user.id, name: user.user_metadata?.name || 'User', email: user.email } : null}
+          currentUser={
+            user
+              ? {
+                  id: user.id,
+                  name: user.user_metadata?.name || "User",
+                  email: user.email,
+                }
+              : null
+          }
         />
       </div>
     </article>
