@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import { motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { SocialLinks } from '@/components/shared/SocialLinks';
-import { ProfilePhoto } from './ProfilePhoto';
-import { HeroCarousel } from './HeroCarousel';
-import { ContributionHeatmap } from '@/components/github/ContributionHeatmap';
-import type { GitHubContributionCalendar } from '@/types/github';
+import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { SocialLinks } from "@/components/shared/SocialLinks";
+import { ProfilePhoto } from "./ProfilePhoto";
+import { HeroCarousel } from "./HeroCarousel";
+import { ContributionHeatmap } from "@/components/github/ContributionHeatmap";
+import type { GitHubContributionCalendar } from "@/types/github";
 
 interface HeroProps {
   contributionCalendar?: GitHubContributionCalendar | null;
@@ -55,7 +55,7 @@ export function Hero({ contributionCalendar }: HeroProps) {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 text-lg sm:text-xl md:text-2xl font-semibold text-muted-foreground mb-6 md:mb-8 hover:text-primary transition-colors group"
             >
-              Software Engineering Intern at Citytech
+              Software Engineer at Citytech
               <ArrowRight className="w-4 h-4 md:w-5 md:h-5 opacity-0 -ml-2 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300" />
             </a>
           </motion.div>
